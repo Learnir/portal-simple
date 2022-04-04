@@ -62,8 +62,8 @@ export default function Home({ content }) {
 
       <main className="container mt-5">
 
-        <div className="hero row mx-auto pt-5 w-50">
-          <div className="col-8 text-center mx-auto">
+        <div className="hero row mx-auto pt-5">
+          <div className="col-lg-6 col-md-12 col-sm-12 text-center mx-auto">
             <h2>Portal Simple</h2>
             <p>Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir.</p>
           </div>
@@ -72,10 +72,10 @@ export default function Home({ content }) {
           </div>
         </div>
 
-        <div className="content row mx-auto pt-5">
+        <div className="content row mx-auto justify-content-start pt-5">
           {content.map((box, index) => {
             return (
-              <div key={index} className="col-4 text-left mx-auto border p-3">
+              <div key={index} className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
                 <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
                 <h6 className="mt-3">{box.title}</h6>
                 <p className="mt-2">{box.description}</p>
@@ -86,9 +86,9 @@ export default function Home({ content }) {
 
       </main>
 
-      <footer className="mt-5 mb-5 border-top">
+      <footer className="mt-5 mb-5 container">
 
-        <div className="hero row mx-auto pt-5 w-50">
+        <div className="hero row mx-auto pt-5 border-top">
           <div className="col-8 text-center mx-auto">
             <p>&copy;	A Portal Simple learning experience</p>
           </div>
