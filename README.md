@@ -1,5 +1,5 @@
 ## Portal Simple
-[<img src="portal-simple.png"/>](portal-simple.png)
+[<img src="portal-simple.png" width="500px"/>](portal-simple.png)
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
