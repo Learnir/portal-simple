@@ -5,17 +5,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Link2Icon, ImageIcon, HamburgerMenuIcon, Cross1Icon, RotateCounterClockwiseIcon } from '@radix-ui/react-icons'
+import { Link2Icon } from '@radix-ui/react-icons'
 import ReactPlayer from 'react-player'
+
+import { PortalStateContext } from '../../context/state';
+
 import Header from '../../components/header'
+import Footer from '../../components/footer'
 
 const learnir = require("learnir-javascript-sdk");
 const client = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
 
-
 export async function getStaticPaths() {
     let response = await client.content();
-
     return {
         paths: response.data.map((box) => {
             return { params: { title: `${box.slug}`, } }
@@ -27,14 +29,14 @@ export async function getStaticPaths() {
 export async function getStaticProps() {
     let response = await client.content();
     console.log("response sdk", response);
-
     return { props: { content: response.data } }
 }
-
 
 export default function Box({ content }) {
 
     const router = useRouter();
+    const PortalState = useContext(PortalStateContext);
+
     let [menu, setMenu] = useState(false);
     let [box, setBox] = useState();
     let [section, setSection] = useState();
@@ -46,10 +48,8 @@ export default function Box({ content }) {
 
     useEffect(() => {
         let box = content.filter(choice => choice.slug == router.query.title)[0];
-
         if (box) {
             setBox(box);
-
             if (box.sections) {
                 setSection(box.sections[0]);
             }
@@ -107,7 +107,7 @@ export default function Box({ content }) {
                                 })
                             }
                         </div>
- 
+
                         <div className="row justify-content-start">
                             <div className="col-lg-12 col-md-12 col-sm-12">
                                 <div className="portal-content p-1" dangerouslySetInnerHTML={{ __html: section?.content }}>
@@ -134,13 +134,7 @@ export default function Box({ content }) {
                 </div>
             </main>
 
-            <footer className="pt-3 pb-3 mt-5 container footer-struc">
-                <div className="hero row mx-auto pt-5 border-top">
-                    <div className="col-8 text-center mx-auto">
-                        <p>&copy;	A Portal Simple learning experience</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
 
         </div >
     )

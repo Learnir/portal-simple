@@ -6,8 +6,11 @@ import Link from 'next/link'
 
 import { FaceIcon, ImageIcon, HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
 
+import { PortalStateContext } from '../context/state';
+
 export default function Header(props) {
 
+    const PortalState = useContext(PortalStateContext);
     let [menu, setMenu] = useState(false);
 
     let links = [
@@ -20,9 +23,13 @@ export default function Header(props) {
             <div className="border-bottom bg-white fixed-top">
                 <div className="container p-2">
                     <div className="navbar p-0">
-                        <div className="col-lg-6 col-md-12 col-sm-12 text-left d-flex align-items-center">
-                            <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
-                            <h6 className="pointed ms-3 mt-1">Product learning</h6>
+                        <div className="col-lg-6 col-md-12 col-sm-12">
+                            <Link href={"/"} >
+                                <div className="text-left d-flex align-items-center">
+                                    <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
+                                    <h6 className="pointed ms-3 mt-2">{PortalState.config.company.name}</h6>
+                                </div>
+                            </Link>
                         </div>
 
                         <div className="col d-none d-lg-flex d-xl-flex align-items-center pr-0 justify-content-end" >

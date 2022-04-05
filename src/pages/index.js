@@ -5,6 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import Header from '../components/header'
+import Footer from '../components/footer'
+
+import { PortalStateContext } from '../context/state';
 
 export async function getStaticProps() {
   const learnir = require("learnir-javascript-sdk");
@@ -14,8 +17,9 @@ export async function getStaticProps() {
   return { props: { content: response.data } }
 }
 
-
 export default function Home({ content }) {
+  const PortalState = useContext(PortalStateContext);
+
   return (
     <div className="container-struc">
       <Head>
@@ -24,13 +28,13 @@ export default function Home({ content }) {
         <link rel="icon" href="/logo.png" />
       </Head>
 
-      <Header/>
+      <Header />
 
       <main className={`container main-struc mt-5}`}>
         <div className="hero row mx-auto pt-5">
           <div className="col-lg-6 col-md-12 col-sm-12 text-center mx-auto">
-            <h2>Portal Simple</h2>
-            <p>Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir.</p>
+            <h2>{PortalState.config.portal.title}</h2>
+            <p>{PortalState.config.portal.description}</p>
           </div>
           <div className="col-12 text-center">
             <button className="p-2 pe-3 ps-3">Explore Courses</button>
@@ -41,7 +45,7 @@ export default function Home({ content }) {
           {content.map((box, index) => {
             return (
               <Link key={index} href={`/box/${box.slug}`}>
-                <div  className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
+                <div className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
                   <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
                   <h6 className="mt-3">{box.title}</h6>
                   <p className="mt-2 fw-n">{box.description}</p>
@@ -53,15 +57,8 @@ export default function Home({ content }) {
 
       </main>
 
-      <footer className="pt-3 pb-3 mt-5 container footer-struc">
+      <Footer />
 
-        <div className="hero row mx-auto pt-5 border-top">
-          <div className="col-8 text-center mx-auto">
-            <p>&copy;	A Portal Simple learning experience</p>
-          </div>
-        </div>
-
-      </footer>
     </div >
   )
 }
