@@ -38,12 +38,18 @@
 ## Tech Stack
 - Nextjs
 - Bootstrap
+- Radix UI & Radix Icons
 - Learnir & learnir-javascript-sdk
 
 
 ## Integrations
 - Authentication - (Implement your authentication method, store in localStoage a tokenised key called toke, on window.atob, key should include name, email and image)
 - Tracking - (learnir.record functions have been implemented in all parts of code, to make use of tracking, simply add client.record methods to what you want to track)
+
+
+## Testing
+- Template is deployed on netlify automatically with daily tests run by testim.io 
+
 
 
 ## Nextjs Documentation

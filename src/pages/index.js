@@ -16,7 +16,6 @@ export async function getStaticProps() {
   console.log("response sdk", response);
   return { props: { content: response.data } }
 }
-
 export default function Home({ content }) {
   const PortalState = useContext(PortalStateContext);
 

@@ -14,8 +14,26 @@ export function PortalStateProvider({ children }) {
   const [getShow, setShow] = useState(false);
 
   // functions
-  const isBrowser = () => typeof window !== "undefined"
-  const authenticated = () => !true ? false : true;
+  const isBrowser = () => typeof window !== "undefined";
+  const authenticated = () => isBrowser() && localStorage.getItem("token") ? true : false;
+  const profile = () => {
+    let user = {};
+    const token = isBrowser() && localStorage.getItem("token");
+    if (token) {
+      let tokenProfile = token.split('.')[1];
+      if (isBrowser() && window.atob(tokenProfile)) {
+        let payload = isBrowser() && window.atob(tokenProfile);
+        user = JSON.parse(payload);
+      } else {
+        typeof window !== 'undefined' && localStorage.clear();
+        return null;
+      }
+    } else {
+      return null;
+    }
+    return user;
+  }
+
 
   // configuration(app-wide)
   const config = {
@@ -23,7 +41,7 @@ export function PortalStateProvider({ children }) {
       logo: "/logo.png",
       name: "TheCompany",
     },
-    portal:{
+    portal: {
       title: "Portal Simple",
       description: "Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir."
     }
@@ -31,7 +49,8 @@ export function PortalStateProvider({ children }) {
 
   const data = {
     config,
-    authenticated, isBrowser,
+    authenticated, profile, isBrowser,
+
     getShow, setShow,
     getBox, setBox,
     getSection, setSection,
