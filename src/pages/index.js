@@ -37,7 +37,9 @@ export default function Home({ content }) {
             <p>{PortalState.config.portal.description}</p>
           </div>
           <div className="col-12 text-center">
-            <button className="p-2 pe-3 ps-3">Explore Courses</button>
+            <a href="/#content">
+              <button className="p-2 pe-3 ps-3">Explore Courses</button>
+            </a>
           </div>
         </div>
 
