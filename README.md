@@ -1,5 +1,5 @@
 ## Portal Simple
-[<img src="portal-web.png" width="6100px"/>](portal-web.png)
+[<img src="portal-web.png" width="610px"/>](portal-web.png)
 [<img src="portal-mobile.png" width="170px"/>](portal-mobile.png)
 - Portal simple is well suited for companies looking for an industry standard template to deploy their product learning experiences.
 
