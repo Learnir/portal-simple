@@ -14,10 +14,10 @@ import Header from '../../components/header'
 import Footer from '../../components/footer'
 
 const learnir = require("learnir-javascript-sdk");
-const client = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
 
 export async function getStaticPaths() {
-    let response = await client.content();
+    let response = await learnirClient.content();
     return {
         paths: response.data.map((box) => {
             return { params: { title: `${box.slug}`, } }
@@ -27,7 +27,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-    let response = await client.content();
+    let response = await learnirClient.content();
     console.log("response sdk", response);
     return { props: { content: response.data } }
 }
@@ -97,7 +97,7 @@ export default function Box({ content }) {
                                 section?.files?.others.map((file, index) => {
                                     return (
                                         <div className="col-lg-4 col-md-12 col-sm-12" key={index}>
-                                            <a target="_blank" href={file.url} download={file.name} className="text-decoration-none text-dark">
+                                            <a target="_blank" rel="referrer" href={file.url} download={file.name} className="text-decoration-none text-dark">
                                                 <h5 size={300} className="text-truncate align-items-center text-">
                                                     <Link2Icon /> {file.name}
                                                 </h5>
@@ -125,7 +125,7 @@ export default function Box({ content }) {
                                     role="button"
                                     key={index}
                                     className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
-                                    onClick={() => { setSection(step) }}>
+                                    onClick={() => { setSection(step); learnirClient.record({ event: "section-change" }); }}>
                                     <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
                                 </div>
                             ))}

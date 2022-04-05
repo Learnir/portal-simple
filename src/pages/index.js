@@ -41,7 +41,7 @@ export default function Home({ content }) {
           </div>
         </div>
 
-        <div className="content row mx-auto justify-content-start pt-5">
+        <div className="content row mx-auto justify-content-start pt-5" id="content">
           {content.map((box, index) => {
             return (
               <Link key={index} href={`/box/${box.slug}`}>

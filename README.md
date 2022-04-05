@@ -36,6 +36,11 @@
 - Learnir & learnir-javascript-sdk
 
 
+## Integrations
+- Authentication - (Implement your authentication method, store in localStoage a tokenised key called toke, on window.atob, key should include name, email and image)
+- Tracking - (learnir.record functions have been implemented in all parts of code, to make use of tracking, simply add client.record methods to what you want to track)
+
+
 ## Nextjs Documentation
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
