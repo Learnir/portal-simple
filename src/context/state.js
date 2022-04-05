@@ -34,21 +34,7 @@ export function PortalStateProvider({ children }) {
     return user;
   }
 
-
-  // configuration(app-wide)
-  const config = {
-    company: {
-      logo: "/logo.png",
-      name: "TheCompany",
-    },
-    portal: {
-      title: "Portal Simple",
-      description: "Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir."
-    }
-  }
-
   const data = {
-    config,
     authenticated, profile, isBrowser,
 
     getShow, setShow,
@@ -60,4 +46,22 @@ export function PortalStateProvider({ children }) {
 }
 
 export const PortalStateContext = PortalContext;
+
+
+// configuration(app-wide)
+export const config = {
+  company: {
+    logo: "/logo.png",
+    name: "TheCompany",
+  },
+  portal: {
+    title: "Portal Simple",
+    description: "Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir."
+  },
+  integrations: {
+    key: "325649396932805193",
+    endpoint: "http://localhost:9060"
+  }
+}
+
 

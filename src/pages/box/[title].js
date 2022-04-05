@@ -9,12 +9,13 @@ import { Link2Icon } from '@radix-ui/react-icons'
 import ReactPlayer from 'react-player'
 
 import { PortalStateContext } from '../../context/state';
+import { config } from '../../context/state';
 
 import Header from '../../components/header'
 import Footer from '../../components/footer'
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
 
 export async function getStaticPaths() {
     let response = await learnirClient.content();
@@ -53,9 +54,10 @@ export default function Box({ content }) {
             if (box.sections) {
                 setSection(box.sections[0]);
             }
-        }
-    }, [])
+        };
 
+        learnirClient.record({ event: "box-visit" }); 
+    }, []);
 
     return (
         <div className="container-struc">

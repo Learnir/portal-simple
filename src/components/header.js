@@ -7,13 +7,13 @@ import Link from 'next/link'
 import { FaceIcon, AvatarIcon, HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
 
 import { PortalStateContext } from '../context/state';
+import { config } from '../context/state';
 
 import * as Dialog from '@radix-ui/react-dialog';
 import { styled } from '@stitches/react';
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
-
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
 
 const Overlay = styled(Dialog.Overlay, {
     background: 'rgba(0 0 0 / 0.5)',
@@ -39,6 +39,7 @@ const axios = require('axios');
 export default function Header(props) {
 
     const PortalState = useContext(PortalStateContext);
+
     let [menu, setMenu] = useState(false);
 
     let links = [
@@ -50,8 +51,6 @@ export default function Header(props) {
     const [getLoading, setLoading] = useState(false);
     const [getCodeSent, setCodeSent] = useState(false);
 
-    let endpoint = 'http://localhost:9060';
-
     function TextInputEvent(e) {
         let name = e.target.name
         let value = e.target.value
@@ -61,14 +60,14 @@ export default function Header(props) {
     function AuthIn() {
         if (getAuthData.code) {
             // code is sent already, send code authenticate request
-            axios.post(`${endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
+            axios.post(`${config.integrations.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
                 learnirClient.consumer({ id: `${PortalState.profile().id}`, name: PortalState.profile().name, email: PortalState.profile().email }).then(response => {
                     console.log("consumer-create", response.data);
                 }).catch(error => {
                     console.log("consumer-create-error", error);
-                })
+                });
                 // close the dialog
                 // state will change automatically
                 PortalState.setShow(false);
@@ -79,7 +78,7 @@ export default function Header(props) {
             });
         } else {
             // send in the code -email
-            axios.post(`${endpoint}/v1/interfaces/portal/authin/email`, getAuthData).then((response) => {
+            axios.post(`${config.integrations.endpoint}/v1/interfaces/portal/authin/email`, getAuthData).then((response) => {
                 console.log("AuthIn response data", response.data);
                 setCodeSent(true);
                 alert("Your Authin code has been sent to your email.");
@@ -93,16 +92,14 @@ export default function Header(props) {
     function AuthUpdate() {
         if (PortalState.authenticated()) {
             // code is sent already, send code authenticate request
-            axios.put(`${endpoint}/v1/interfaces/portal/account/${PortalState.profile()?.id}`, getAuthData).then((response) => {
+            axios.put(`${config.integrations.endpoint}/v1/interfaces/portal/account/${PortalState.profile()?.id}`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
-
                 // consumer name update
                 learnirClient.consumer({ id: `${PortalState.profile().id}`, name: PortalState.profile().name }).then(response => {
                     console.log("consumer-update", response.data);
                 }).catch(error => {
                     console.log("consumer-update-error", error);
-                })
-
+                });
                 // close the dialog
                 // state will change automatically
                 setAuthData({ ...getAuthData, name: PortalState.profile().name });
@@ -114,7 +111,6 @@ export default function Header(props) {
         }
     }
 
-
     return (
         <div className="mb-5 p-2">
             <div className="border-bottom bg-white fixed-top">
@@ -124,7 +120,7 @@ export default function Header(props) {
                             <Link href={"/"} >
                                 <div className="text-left d-flex align-items-center">
                                     <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
-                                    <h6 className="pointed ms-3 mt-2">{PortalState.config.company.name}</h6>
+                                    <h6 className="pointed ms-3 mt-2">{config.company.name}</h6>
                                 </div>
                             </Link>
                         </div>

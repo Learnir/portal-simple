@@ -8,16 +8,23 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 
 import { PortalStateContext } from '../context/state';
+import { config } from '../context/state';
+
+const learnir = require("learnir-javascript-sdk");
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
 
 export async function getStaticProps() {
-  const learnir = require("learnir-javascript-sdk");
-  const client = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
-  let response = await client.content();
+  let response = await learnirClient.content();
   console.log("response sdk", response);
   return { props: { content: response.data } }
 }
 export default function Home({ content }) {
   const PortalState = useContext(PortalStateContext);
+
+  useEffect(() => {
+    learnirClient.record({ event: "page-visit" }); 
+    learnirClient.record({ event: "active" }); 
+}, []);
 
   return (
     <div className="container-struc">
@@ -32,8 +39,8 @@ export default function Home({ content }) {
       <main className={`container main-struc mt-5}`}>
         <div className="hero row mx-auto pt-5">
           <div className="col-lg-6 col-md-12 col-sm-12 text-center mx-auto">
-            <h2>{PortalState.config.portal.title}</h2>
-            <p>{PortalState.config.portal.description}</p>
+            <h2>{config.portal.title}</h2>
+            <p>{config.portal.description}</p>
           </div>
           <div className="col-12 text-center">
             <Link href="/#content">
