@@ -6,8 +6,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { FaceIcon, ImageIcon, HamburgerMenuIcon, Cross1Icon, RotateCounterClockwiseIcon } from '@radix-ui/react-icons'
-
 import ReactPlayer from 'react-player'
+import Header from '../../components/header'
 
 const learnir = require("learnir-javascript-sdk");
 const client = new learnir.LearnirApi({ baseOptions: { headers: { "key": "325649396932805193" } } });
@@ -65,91 +65,65 @@ export default function Box({ content }) {
                 <link rel="icon" href="/logo.png" />
             </Head>
 
-            <div className="border-bottom bg-white mb-5 fixed-top">
-                <div className="container p-2">
-                    <div className="navbar">
-                        <div className="col-lg-6 col-md-12 col-sm-12 text-left d-flex align-items-center">
-                            <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
-                            <h6 className="pointed ms-3 mt-1">Product learning</h6>
+            <Header />
+
+            <main className={`container main-struc ps-1 pe-1`}>
+                <div className="row mx-auto pt-4">
+                    <div className="col-lg-8 col-md-12 col-sm-12">
+
+                        <div className="row">
+                            <p className="d-flex justify-content-between fw-normal mb-3"> {section?.title} </p>
+                            {
+                                section?.files.video ?
+                                    <ReactPlayer
+                                        controls={true}
+                                        url={section?.files?.video}
+                                        className="w-100 h-auto rounded portal-video-box"
+                                        config={{
+                                            file: {
+                                                attributes: {
+                                                    onContextMenu: e => e.preventDefault(),
+                                                    controlsList: 'nodownload'
+                                                }
+                                            }
+                                        }}
+                                    />
+                                    :
+                                    <div className="w-100 mb-3">
+                                    </div>
+                            }
                         </div>
 
-                        <div className="col d-none d-lg-flex d-xl-flex align-items-center pr-0 justify-content-end" >
+
+                        <div className="row mt-2 justify-content-start">
                             {
-                                links.map((route, index) => {
+                                section?.files?.others.map((file, index) => {
                                     return (
-                                        <span className="me-5 align-items-center" key={index}>
-                                            <Link href={route.path}><h6 size={300} className="pointed cursor mt-2"><a>{route.label}</a></h6></Link>
-                                        </span>
+                                        <div className="col-lg-2 col-md-12 col-sm-12" key={index}>
+                                            <div className="pointed p-2 text-brand">
+                                                <a target="_blank" href={file.url} download={file.name} >
+                                                    <Paragraph size={300} className="text-truncate align-items-center text-">
+                                                        <PaperclipIcon size={12} className="mr-2" />
+                                                        {file.name}
+                                                    </Paragraph>
+                                                </a>
+                                            </div>
+                                        </div>
                                     )
                                 })
                             }
-                            {
-                                typeof window != "undefined" && localStorage.getItem("token") ?
-                                    <button className="bg-red" onClick={() => { localStorage.removeItem("token"); }}> AuthOut </button>
-                                    :
-                                    <button className="bg-brand text-white"> AuthIn </button>
-                            }
                         </div>
 
-                        <div className="col d-lg-none d-sm-flex d-md-flex align-items-end text-end text-right" >
-                            {
-                                menu ?
-                                    <Cross1Icon onClick={() => setMenu(false)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
-                                    :
-                                    <HamburgerMenuIcon onClick={() => setMenu(true)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
-                            }
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            {menu && <div className="container mt-5 border-bottom pb-2">
-                <div className="bg-white d-flex justify-content-end">
-                    {
-                        links.map((route, index) => {
-                            return (
-                                <span className="me-5 align-items-center" key={index}>
-                                    <Link href={route.path}><h6 size={300} className="pointed cursor mt-2"><a>{route.label}</a></h6></Link>
-                                </span>
-                            )
-                        })
-                    }
-                    {
-                        typeof window != "undefined" && localStorage.getItem("token") ?
-                            <button className="bg-red" onClick={() => { localStorage.removeItem("token"); }}> AuthOut </button>
-                            :
-                            <button className="bg-white text-brand border-0 p-0"> AuthIn </button>
-                    }
-                </div>
-            </div>}
-
-
-            <main className={`container main-struc mt-5 ps-1 pe-1`}>
-                <div className="row mx-auto pt-5">
-                    <div className="col-lg-8 col-md-12 col-sm-12">
-                        <p className="d-flex justify-content-between fw-normal mb-3"> {section?.title} </p>
-                        {
-                            section?.files.video ?
-                                <ReactPlayer
-                                    controls={true}
-                                    url={section?.files?.video}
-                                    className="w-100 h-auto rounded portal-video-box"
-                                    config={{
-                                        file: {
-                                            attributes: {
-                                                onContextMenu: e => e.preventDefault(),
-                                                controlsList: 'nodownload'
-                                            }
-                                        }
-                                    }}
-                                />
-                                :
-                                <div className="w-100 mb-3">
+                        <div className="row mt-2 justify-content-start">
+                            <div className="col-lg-12 col-md-12 col-sm-12 p-4">
+                                <div className="portal-content" dangerouslySetInnerHTML={{ __html: section?.content }}>
                                 </div>
-                        }
+                            </div>
+                        </div>
+
+
                     </div>
-                    <div className="col-4">
+                    <div className="col-lg-4 col-md-12 col-sm-12">
                         <div className="w-100 mb-3">
                             <h3 className="d-flex justify-content-between"> Sections </h3>
                         </div>
@@ -158,7 +132,7 @@ export default function Box({ content }) {
                                 <div
                                     role="button"
                                     key={index}
-                                    className={`mt-2 w-100 h-auto pointed text-start border p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited':''}`}
+                                    className={`mt-2 w-100 h-auto pointed text-start border p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
                                     onClick={() => { setSection(step) }}>
                                     <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
                                 </div>

@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FaceIcon, ImageIcon, HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
+import Header from '../components/header'
 
 export async function getStaticProps() {
   const learnir = require("learnir-javascript-sdk");
@@ -16,14 +16,6 @@ export async function getStaticProps() {
 
 
 export default function Home({ content }) {
-
-  let [menu, setMenu] = useState(false);
-
-  let links = [
-    { label: "Home", path: "/" },
-    { label: "Content", path: "/#content" },
-  ];
-
   return (
     <div className="container-struc">
       <Head>
@@ -32,66 +24,9 @@ export default function Home({ content }) {
         <link rel="icon" href="/logo.png" />
       </Head>
 
-      <div className="border-bottom bg-white mb-5 fixed-top">
-        <div className="container p-2">
-          <div className="navbar">
-            <div className="col-lg-6 col-md-12 col-sm-12 text-left d-flex align-items-center">
-              <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
-              <h6 className="pointed ms-3 mt-1">Product learning</h6>
-            </div>
+      <Header/>
 
-            <div className="col d-none d-lg-flex d-xl-flex align-items-center pr-0 justify-content-end" >
-              {
-                links.map((route, index) => {
-                  return (
-                    <span className="me-5 align-items-center" key={index}>
-                      <Link href={route.path}><h6 size={300} className="pointed cursor mt-2"><a>{route.label}</a></h6></Link>
-                    </span>
-                  )
-                })
-              }
-              {
-                typeof window != "undefined" && localStorage.getItem("token") ?
-                  <button className="bg-red" onClick={() => { localStorage.removeItem("token"); }}> AuthOut </button>
-                  :
-                  <button className="bg-brand text-white"> AuthIn </button>
-              }
-            </div>
-
-            <div className="col d-lg-none d-sm-flex d-md-flex align-items-end text-end text-right" >
-              {
-                menu ?
-                  <Cross1Icon onClick={() => setMenu(false)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
-                  :
-                  <HamburgerMenuIcon onClick={() => setMenu(true)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
-              }
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {menu && <div className="ontainer mt-5 border-bottom pb-2">
-        <div className="bg-white d-flex justify-content-end">
-          {
-            links.map((route, index) => {
-              return (
-                <span className="me-5 align-items-center" key={index}>
-                  <Link href={route.path}><h6 size={300} className="pointed cursor mt-2"><a>{route.label}</a></h6></Link>
-                </span>
-              )
-            })
-          }
-          {
-            typeof window != "undefined" && localStorage.getItem("token") ?
-              <button className="bg-red" onClick={() => { localStorage.removeItem("token"); }}> AuthOut </button>
-              :
-              <button className="bg-white text-brand border-0 p-0"> AuthIn </button>
-          }
-        </div>
-      </div>}
-
-      <main className={`container main-struc ${menu ? '' : 'mt-5'}`}>
+      <main className={`container main-struc mt-5}`}>
         <div className="hero row mx-auto pt-5">
           <div className="col-lg-6 col-md-12 col-sm-12 text-center mx-auto">
             <h2>Portal Simple</h2>
