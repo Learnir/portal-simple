@@ -97,7 +97,7 @@ export default function Box({ content }) {
                                 section?.files?.others.map((file, index) => {
                                     return (
                                         <div className="col-lg-4 col-md-12 col-sm-12" key={index}>
-                                            <a target="_blank" rel="referrer" href={file.url} download={file.name} className="text-decoration-none text-dark">
+                                            <a target="_blank" rel="noreferrer" href={file.url} download={file.name} className="text-decoration-none text-dark">
                                                 <h5 size={300} className="text-truncate align-items-center text-">
                                                     <Link2Icon /> {file.name}
                                                 </h5>
