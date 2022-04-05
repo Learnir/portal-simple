@@ -60,7 +60,7 @@ export const config = {
   },
   integrations: {
     key: "325649396932805193",
-    endpoint: "http://localhost:9060"
+    endpoint: typeof window !== "undefined" && window.location.hostname == "locahost" ? "http://localhost:9060" : "https://api.learnir.co"
   }
 }
 
