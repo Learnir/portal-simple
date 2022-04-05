@@ -3,8 +3,13 @@
 [<img src="portal-mobile.png" width="170px"/>](portal-mobile.png)
 - Portal simple is well suited for companies looking for an industry standard template to deploy their product learning experiences.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Learnir/portal-simple)
 
+## Quick Deploy
+- [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Learnir/portal-simple)
+- [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Learnir/portal-simple)
+
+## Starter Demo
+- https://academy.learnir.co/
 
 ## Guide for developer
 - It's nextjs and can be deployed on all forms of compute, popular of which is Vercel, Netlify and for AWS environmnets, Beanstalk
