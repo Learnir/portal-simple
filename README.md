@@ -1,6 +1,6 @@
 ## Portal Simple
 [<img src="portal-web.png" width="400px"/>](portal-web.png)
-[<img src="portal-mobile.png" width="auto"/>](portal-mobile.png)
+[<img src="portal-mobile.png" width="100px"/>](portal-mobile.png)
 - Portal simple is well suited for companies looking for an industry standard template to deploy their product learning experiences.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Learnir/portal-simple)
