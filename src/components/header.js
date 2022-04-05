@@ -17,9 +17,9 @@ export default function Header(props) {
 
     return (
         <div className="mb-5 p-2">
-            <div className="border-bottom bg-white mb-5 fixed-top">
+            <div className="border-bottom bg-white fixed-top">
                 <div className="container p-2">
-                    <div className="navbar">
+                    <div className="navbar p-0">
                         <div className="col-lg-6 col-md-12 col-sm-12 text-left d-flex align-items-center">
                             <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
                             <h6 className="pointed ms-3 mt-1">Product learning</h6>
@@ -56,7 +56,7 @@ export default function Header(props) {
                 </div>
             </div>
 
-            {menu && <div className="ontainer mt-5 border-bottom pb-2">
+            {menu && <div className="container mt-5 border-bottom pb-2">
                 <div className="bg-white d-flex justify-content-end">
                     {
                         links.map((route, index) => {

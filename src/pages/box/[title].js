@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FaceIcon, ImageIcon, HamburgerMenuIcon, Cross1Icon, RotateCounterClockwiseIcon } from '@radix-ui/react-icons'
+import { Link2Icon, ImageIcon, HamburgerMenuIcon, Cross1Icon, RotateCounterClockwiseIcon } from '@radix-ui/react-icons'
 import ReactPlayer from 'react-player'
 import Header from '../../components/header'
 
@@ -70,9 +70,8 @@ export default function Box({ content }) {
             <main className={`container main-struc ps-1 pe-1`}>
                 <div className="row mx-auto pt-4">
                     <div className="col-lg-8 col-md-12 col-sm-12">
-
                         <div className="row">
-                            <p className="d-flex justify-content-between fw-normal mb-3"> {section?.title} </p>
+                            <h3 className="d-flex justify-content-between mb-3"> {section?.title} </h3>
                             {
                                 section?.files.video ?
                                     <ReactPlayer
@@ -93,35 +92,28 @@ export default function Box({ content }) {
                                     </div>
                             }
                         </div>
-
-
-                        <div className="row mt-2 justify-content-start">
+                        <div className="row mt-3 justify-content-start">
                             {
                                 section?.files?.others.map((file, index) => {
                                     return (
-                                        <div className="col-lg-2 col-md-12 col-sm-12" key={index}>
-                                            <div className="pointed p-2 text-brand">
-                                                <a target="_blank" href={file.url} download={file.name} >
-                                                    <Paragraph size={300} className="text-truncate align-items-center text-">
-                                                        <PaperclipIcon size={12} className="mr-2" />
-                                                        {file.name}
-                                                    </Paragraph>
-                                                </a>
-                                            </div>
+                                        <div className="col-lg-4 col-md-12 col-sm-12" key={index}>
+                                            <a target="_blank" href={file.url} download={file.name} className="text-decoration-none text-dark">
+                                                <h5 size={300} className="text-truncate align-items-center text-">
+                                                    <Link2Icon /> {file.name}
+                                                </h5>
+                                            </a>
                                         </div>
                                     )
                                 })
                             }
                         </div>
-
-                        <div className="row mt-2 justify-content-start">
-                            <div className="col-lg-12 col-md-12 col-sm-12 p-4">
-                                <div className="portal-content" dangerouslySetInnerHTML={{ __html: section?.content }}>
+ 
+                        <div className="row justify-content-start">
+                            <div className="col-lg-12 col-md-12 col-sm-12">
+                                <div className="portal-content p-1" dangerouslySetInnerHTML={{ __html: section?.content }}>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
                         <div className="w-100 mb-3">
@@ -132,7 +124,7 @@ export default function Box({ content }) {
                                 <div
                                     role="button"
                                     key={index}
-                                    className={`mt-2 w-100 h-auto pointed text-start border p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
+                                    className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
                                     onClick={() => { setSection(step) }}>
                                     <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
                                 </div>
