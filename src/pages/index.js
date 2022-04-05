@@ -25,7 +25,7 @@ export default function Home({ content }) {
   ];
 
   return (
-    <div className="">
+    <div className="container-struc">
       <Head>
         <title>Portal - Online learning experience</title>
         <meta name="description" content="Join us on our learning portal as we take you through beginner to mastery of our products" />
@@ -61,9 +61,9 @@ export default function Home({ content }) {
             <div className="col d-lg-none d-sm-flex d-md-flex align-items-end text-end text-right" >
               {
                 menu ?
-                  <Cross1Icon onClick={()=> setMenu(false)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
+                  <Cross1Icon onClick={() => setMenu(false)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
                   :
-                  <HamburgerMenuIcon onClick={()=> setMenu(true)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
+                  <HamburgerMenuIcon onClick={() => setMenu(true)} style={{ height: 25, width: "auto", fontWeight: 900 }} />
               }
             </div>
 
@@ -71,7 +71,7 @@ export default function Home({ content }) {
         </div>
       </div>
 
-      {menu && <div className="container mt-5 border-bottom pb-2">
+      {menu && <div className="ontainer mt-5 border-bottom pb-2">
         <div className="bg-white d-flex justify-content-end">
           {
             links.map((route, index) => {
@@ -91,8 +91,7 @@ export default function Home({ content }) {
         </div>
       </div>}
 
-
-      <main className={`container ${menu ? '' : 'mt-5'}`}>
+      <main className={`container main-struc ${menu ? '' : 'mt-5'}`}>
         <div className="hero row mx-auto pt-5">
           <div className="col-lg-6 col-md-12 col-sm-12 text-center mx-auto">
             <h2>Portal Simple</h2>
@@ -106,18 +105,20 @@ export default function Home({ content }) {
         <div className="content row mx-auto justify-content-start pt-5">
           {content.map((box, index) => {
             return (
-              <div key={index} className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
-                <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
-                <h6 className="mt-3">{box.title}</h6>
-                <p className="mt-2">{box.description}</p>
-              </div>
+              <Link key={index} href={`/box/${box.slug}`}>
+                <div  className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
+                  <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
+                  <h6 className="mt-3">{box.title}</h6>
+                  <p className="mt-2 fw-n">{box.description}</p>
+                </div>
+              </Link>
             )
           })}
         </div>
 
       </main>
 
-      <footer className="pt-3 pb-3 container">
+      <footer className="pt-3 pb-3 mt-5 container footer-struc">
 
         <div className="hero row mx-auto pt-5 border-top">
           <div className="col-8 text-center mx-auto">
