@@ -51,6 +51,14 @@
 - Template is deployed on netlify automatically with daily tests run by testim.io 
 
 
+## Todo
+- Experienece Improvements:
+- Ensure experience follows a step by step completion of the content box sections
+- On finishing, determine completion and award student consumer for the work
+- Gather more analytics data in the interactivity of the student & his/her learning experience
+- Have more ideas? - send to us at team@learnir.co
+
+
 
 ## Nextjs Documentation
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
