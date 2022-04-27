@@ -16,7 +16,7 @@ const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": 
 export async function getStaticProps() {
   let response = await learnirClient.content();
   console.log("response sdk", response);
-  return { props: { content: response.data } }
+  return { props: { content: response.data }, revalidate: 60 }
 }
 export default function Home({ content }) {
   const PortalState = useContext(PortalStateContext);

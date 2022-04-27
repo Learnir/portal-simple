@@ -154,7 +154,7 @@ export default function Header(props) {
                                     <Overlay>
                                         <Content className="dialog">
                                             <h2 size={300} className="m" >Auth In</h2>
-                                            <p size={300} className="mb-3" >{!getCodeSent ? 'This will tie activities to your profile.' : 'Code has been sent to your email.'}</p>
+                                            <p size={300} className="mb-3" >{!getCodeSent ? 'This will tye activities to your profile.' : 'Code has been sent to your email.'}</p>
 
                                             {!AppState.authenticated() ?
                                                 <input

@@ -69,7 +69,7 @@ export default function Box({ content }) {
             <Header />
 
             <main className={`container main-struc ps-1 pe-1`}>
-                <div className="row mx-auto pt-4">
+                <div className="row mx-auto pt-2">
                     <div className="col-lg-8 col-md-12 col-sm-12">
                         <div className="row">
                             <h3 className="d-flex justify-content-between mb-3"> {section?.title} </h3>
@@ -126,7 +126,15 @@ export default function Box({ content }) {
                                     role="button"
                                     key={index}
                                     className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
-                                    onClick={() => { setSection(step); learnirClient.record({ event: "section-change" }); }}>
+                                    onClick={() => { 
+                                        setSection(step); 
+                                        learnirClient.record({ 
+                                            event: "section.visit",  
+                                            context: {
+                                                section: step.id
+                                            }
+                                        }); 
+                                        }}>
                                     <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
                                 </div>
                             ))}
