@@ -6,9 +6,10 @@
 ## Deployment
 - Clone this repository into your organization
 - Press dot to enter the editor mode and set your port key in the config file here `/src/context/state`
-- Custom host or Choose below to deploy(best do what is the current setup of your organization):
+- Custom host or Choose below to deploy (best do what is the current setup of your organization):
 - [Deploy to Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/Learnir/portal-simple/)
 - [Deploy to Vercel](https://vercel.com/new/clone?repository-url=https://github.com/Learnir/portal-simple)
+- Connect your domain & done 🚀 
 
 ## Demo
 - https://academy.learnir.co/
