@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 import { FaceIcon, AvatarIcon, HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
 
-import { PortalStateContext } from '../context/state';
+import { AppStateContext } from '../context/state';
 import { config } from '../context/state';
 
 import * as Dialog from '@radix-ui/react-dialog';
@@ -38,7 +38,7 @@ const axios = require('axios');
 
 export default function Header(props) {
 
-    const PortalState = useContext(PortalStateContext);
+    const AppState = useContext(AppStateContext);
 
     let [menu, setMenu] = useState(false);
 
@@ -63,15 +63,15 @@ export default function Header(props) {
             axios.post(`${config.integrations.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
-                learnirClient.consumer({ id: `${PortalState.profile().id}`, name: PortalState.profile().name, email: PortalState.profile().email }).then(response => {
+                learnirClient.consumer({ id: `${AppState.profile().id}`, name: AppState.profile().name, email: AppState.profile().email }).then(response => {
                     console.log("consumer-create", response.data);
                 }).catch(error => {
                     console.log("consumer-create-error", error);
                 });
                 // close the dialog
                 // state will change automatically
-                PortalState.setShow(false);
-                setAuthData({ ...getAuthData, name: PortalState.profile().name });
+                AppState.setShow(false);
+                setAuthData({ ...getAuthData, name: AppState.profile().name });
                 alert("Authenticated Successfully!");
             }).catch((error) => {
                 console.log("AuthIn error data", error);
@@ -90,20 +90,20 @@ export default function Header(props) {
     }
 
     function AuthUpdate() {
-        if (PortalState.authenticated()) {
+        if (AppState.authenticated()) {
             // code is sent already, send code authenticate request
-            axios.put(`${config.integrations.endpoint}/v1/interfaces/portal/account/${PortalState.profile()?.id}`, getAuthData).then((response) => {
+            axios.put(`${config.integrations.endpoint}/v1/interfaces/portal/account/${AppState.profile()?.id}`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // consumer name update
-                learnirClient.consumer({ id: `${PortalState.profile().id}`, name: PortalState.profile().name }).then(response => {
+                learnirClient.consumer({ id: `${AppState.profile().id}`, name: AppState.profile().name }).then(response => {
                     console.log("consumer-update", response.data);
                 }).catch(error => {
                     console.log("consumer-update-error", error);
                 });
                 // close the dialog
                 // state will change automatically
-                setAuthData({ ...getAuthData, name: PortalState.profile().name });
-                PortalState.setShow(false);
+                setAuthData({ ...getAuthData, name: AppState.profile().name });
+                AppState.setShow(false);
                 alert("Updated Successfully!");
             }).catch((error) => {
                 alert("Failed to update account, please check info and contact support");
@@ -119,7 +119,7 @@ export default function Header(props) {
                         <div className="col-lg-6 col-md-12 col-sm-12">
                             <Link href={"/"} >
                                 <div className="text-left d-flex align-items-center">
-                                    <img src={"/logo.png"} className="rounded" height="30px" width="30px" />
+                                    <img src={config.company.logo} className="rounded" height="30px" width="30px" />
                                     <h6 className="pointed ms-3 mt-2">{config.company.name}</h6>
                                 </div>
                             </Link>
@@ -136,27 +136,27 @@ export default function Header(props) {
                                 })
                             }
 
-                            <Dialog.Root open={PortalState.getShow} onOpenChange={(open) => PortalState.setShow(open)}>
+                            <Dialog.Root open={AppState.getShow} onOpenChange={(open) => AppState.setShow(open)}>
                                 <Dialog.Trigger className="pt-0 pb-0 border-none border-0">
                                     {
-                                        PortalState.authenticated() ?
+                                        AppState.authenticated() ?
                                             <div className="align-items-center">
                                                 <h6 size={300} className="pointed cursor mt-2">
-                                                    <AvatarIcon style={{ height: 15, width: "auto", fontWeight: 900, marginBottom: "3px" }} /> {PortalState.profile()?.name}
+                                                    <AvatarIcon style={{ height: 15, width: "auto", fontWeight: 900, marginBottom: "3px" }} /> {AppState.profile()?.name}
                                                 </h6>
                                             </div>
                                             :
-                                            <button className="bg-brand text-white" onClick={() => PortalState.setShow(true)}> AuthIn </button>
+                                            <button className="bg-brand text-white" onClick={() => AppState.setShow(true)}> AuthIn </button>
                                     }
                                 </Dialog.Trigger>
 
                                 <Dialog.Portal>
                                     <Overlay>
                                         <Content className="dialog">
-                                            <h2 size={500} className="m" >Auth In</h2>
+                                            <h2 size={300} className="m" >Auth In</h2>
                                             <p size={300} className="mb-3" >{!getCodeSent ? 'This will tie activities to your profile.' : 'Code has been sent to your email.'}</p>
 
-                                            {!PortalState.authenticated() ?
+                                            {!AppState.authenticated() ?
                                                 <input
                                                     placeholder="Email"
                                                     label=""
@@ -176,7 +176,7 @@ export default function Header(props) {
                                                     onChange={TextInputEvent} />
                                             }
 
-                                            {getCodeSent && !PortalState.authenticated() && <input
+                                            {getCodeSent && !AppState.authenticated() && <input
                                                 placeholder="Code"
                                                 label=""
                                                 name="code"
@@ -185,12 +185,12 @@ export default function Header(props) {
                                                 value={getAuthData.code}
                                                 onChange={TextInputEvent} />}
 
-                                            {PortalState.authenticated() ?
+                                            {AppState.authenticated() ?
                                                 <div className="text-center p-3s">
                                                     <button className="bg-brand col-12 mt-2 p-2 text-white" onClick={AuthUpdate}>Update</button>
                                                     <button className="border-0 col-3 mx-auto mt-4 p-2 text-brand" onClick={() => {
                                                         localStorage.removeItem("token");
-                                                        PortalState.setShow(false);
+                                                        AppState.setShow(false);
                                                     }}>Sign Out</button>
                                                 </div>
                                                 :

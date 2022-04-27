@@ -53,9 +53,9 @@ export default function Box({ content }) {
             if (box.sections) {
                 setSection(box.sections[0]);
             }
-        };
 
-        learnirClient.record({ event: "box-visit" }); 
+            learnirClient.record({ event: "box.visit", context: { "box": box.id } });
+        };
     }, []);
 
     return (

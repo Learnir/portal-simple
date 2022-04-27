@@ -46,16 +46,17 @@ export function PortalStateProvider({ children }) {
 }
 
 export const PortalStateContext = PortalContext;
+export const AppStateContext = PortalContext;
 
 
 // configuration(app-wide)
 export const config = {
   company: {
-    logo: "/logo.png",
-    name: "TheCompany",
+    logo: "https://learnir.co/logo.svg",
+    name: "Company",
   },
   portal: {
-    title: "Portal Simple",
+    title: "Product Training",
     description: "Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir."
   },
   integrations: {

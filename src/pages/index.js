@@ -22,9 +22,9 @@ export default function Home({ content }) {
   const PortalState = useContext(PortalStateContext);
 
   useEffect(() => {
-    learnirClient.record({ event: "page-visit" }); 
-    learnirClient.record({ event: "active", consumer: "" }); 
-}, []);
+    learnirClient.record({ event: "page-visit" });
+    learnirClient.record({ event: "active" });
+  }, []);
 
   return (
     <div className="container-struc">
