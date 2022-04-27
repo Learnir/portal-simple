@@ -23,7 +23,7 @@ export default function Home({ content }) {
 
   useEffect(() => {
     learnirClient.record({ event: "page-visit" }); 
-    learnirClient.record({ event: "active" }); 
+    learnirClient.record({ event: "active", consumer: "" }); 
 }, []);
 
   return (

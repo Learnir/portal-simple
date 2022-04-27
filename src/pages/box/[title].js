@@ -29,7 +29,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps() {
     let response = await learnirClient.content();
-    console.log("response sdk", response);
     return { props: { content: response.data } }
 }
 
