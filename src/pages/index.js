@@ -19,11 +19,19 @@ export async function getStaticProps() {
   return { props: { content: response.data }, revalidate: 60 }
 }
 export default function Home({ content }) {
-  const PortalState = useContext(PortalStateContext);
+  const AppState = useContext(PortalStateContext);
 
   useEffect(() => {
-    learnirClient.record({ event: "page-visit" });
-    learnirClient.record({ event: "active" });
+    learnirClient.record({
+      event: "page-visit",
+      consumer: AppState.profile?.id,
+      context: {}
+    });
+    learnirClient.record({
+      event: "consumer.active",
+      consumer: AppState.profile?.id,
+      context: {}
+    });
   }, []);
 
   return (
@@ -49,10 +57,10 @@ export default function Home({ content }) {
           </div>
         </div>
 
-        <div className="row mx-auto justify-content-start pt-5" id="content">
+        <div className="row pt-5 justify-content-start align-self-start" id="content">
           {content.map((box, index) => {
             return (
-              <div key={index} className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
+              <div key={index} className="col-lg-4 col-md-12 col-sm-12 text-left border p-3">
                 <Link href={`/box/${box.slug}`}>
                   <div className="w-100 h-100">
 
