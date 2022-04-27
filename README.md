@@ -7,8 +7,8 @@
 - Clone this repository into your organization
 - Press dot to enter the editor mode and set your port key in the config file here `/src/context/state`
 - Custom host or Choose below to deploy(best do what is the current setup of your organization):
-- [https://app.netlify.com/start/deploy?repository=https://github.com/Learnir/portal-simple/](Deploy to Netlify)
-- [https://vercel.com/new/clone?repository-url=https://github.com/Learnir/portal-simple](Deploy to Vercel)
+- [Deploy to Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/Learnir/portal-simple/)
+- [Deploy to Vercel](https://vercel.com/new/clone?repository-url=https://github.com/Learnir/portal-simple)
 
 ## Demo
 - https://academy.learnir.co/
@@ -16,7 +16,7 @@
 ## Tech Stack
 - Nextjs
 - Bootstrap
-- Evergreen UI [https://evergreen.segment.com/](Link)
+- Evergreen UI [Link](https://evergreen.segment.com/)
 - Radix UI & Radix Icons
 - Learnir & learnir-javascript-sdk
 
