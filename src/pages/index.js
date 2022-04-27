@@ -49,16 +49,20 @@ export default function Home({ content }) {
           </div>
         </div>
 
-        <div className="content row mx-auto justify-content-start pt-5" id="content">
+        <div className="row mx-auto justify-content-start pt-5" id="content">
           {content.map((box, index) => {
             return (
-              <Link key={index} href={`/box/${box.slug}`}>
-                <div className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
-                  <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
-                  <h6 className="mt-3">{box.title}</h6>
-                  <p className="mt-2 fw-n">{box.description}</p>
-                </div>
-              </Link>
+              <div key={index} className="col-lg-4 col-md-12 col-sm-12 text-left mx-auto border p-3">
+                <Link href={`/box/${box.slug}`}>
+                  <div className="w-100 h-100">
+
+                    <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
+                    <h6 className="mt-3">{box.title}</h6>
+                    <p className="mt-2 fw-n">{box.description}</p>
+
+                  </div>
+                </Link>
+              </div>
             )
           })}
         </div>

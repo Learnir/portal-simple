@@ -35,7 +35,7 @@ export async function getStaticProps() {
 export default function Box({ content }) {
 
     const router = useRouter();
-    const PortalState = useContext(PortalStateContext);
+    const AppState = useContext(PortalStateContext);
 
     let [menu, setMenu] = useState(false);
     let [box, setBox] = useState();
@@ -87,6 +87,26 @@ export default function Box({ content }) {
                                                 }
                                             }
                                         }}
+                                        onStart={()=>{
+                                            // record when consumer clicks to watch video
+                                            learnirClient.record({ 
+                                                event: "section.video.watch",  
+                                                consumer: AppState.profile?.id,
+                                                context: {
+                                                    section: section.id
+                                                }
+                                            }); 
+                                        }}
+                                        onEnded={()=>{
+                                            // record when consumer clicks to watch video
+                                            learnirClient.record({ 
+                                                event: "section.video.complete",  
+                                                consumer: AppState.profile?.id,
+                                                context: {
+                                                    section: section.id
+                                                }
+                                            }); 
+                                        }}
                                     />
                                     :
                                     <div className="w-100 mb-3">
@@ -130,6 +150,12 @@ export default function Box({ content }) {
                                         setSection(step); 
                                         learnirClient.record({ 
                                             event: "section.visit",  
+                                            context: {
+                                                section: step.id
+                                            }
+                                        }); 
+                                        learnirClient.record({ 
+                                            event: "section.complete",  
                                             context: {
                                                 section: step.id
                                             }
