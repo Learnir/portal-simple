@@ -30,8 +30,7 @@
 
 ## Todo
 - Experienece Improvements:
-- Ensure experience follows a step by step completion of the content box sections
-- On finishing, determine completion and award student consumer for the work (if component is setup)
+- Setup indicators for step by step completion of the content box sections
 - Gather more analytics data in the interactivity of the student & his/her learning experience
 - Have more ideas? - send to us at team@learnir.co
 

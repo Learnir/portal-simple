@@ -13,22 +13,13 @@ import { config } from '../context/state';
 const learnir = require("learnir-javascript-sdk");
 const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
 
-export async function getStaticProps() {
-  let response = await learnirClient.content();
-  console.log("response sdk", response);
-  return { props: { content: response.data }, revalidate: 60 }
-}
-export default function Home({ content }) {
+
+export default function Account() {
   const AppState = useContext(PortalStateContext);
 
   useEffect(() => {
     learnirClient.record({
-      event: "main-page-visit",
-      consumer: AppState.profile?.id,
-      context: {}
-    });
-    learnirClient.record({
-      event: "consumer.active",
+      event: "account-page-visit",
       consumer: AppState.profile?.id,
       context: {}
     });
@@ -58,21 +49,7 @@ export default function Home({ content }) {
         </div>
 
         <div className="row pt-5 justify-content-start align-self-start" id="content">
-          {content.map((box, index) => {
-            return (
-              <div key={index} className="col-lg-4 col-md-12 col-sm-12 text-left border p-3">
-                <Link href={`/box/${box.slug}`}>
-                  <div className="w-100 h-100">
-
-                    <img src={box.image} className="mx auto rounded-top mb-2" height="auto" width="100%" />
-                    <h6 className="mt-3">{box.title}</h6>
-                    <p className="mt-2 fw-n">{box.description}</p>
-
-                  </div>
-                </Link>
-              </div>
-            )
-          })}
+      
         </div>
 
       </main>

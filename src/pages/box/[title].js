@@ -54,7 +54,12 @@ export default function Box({ content }) {
                 setSection(box.sections[0]);
             }
 
-            learnirClient.record({ event: "box.visit", context: { "box": box.id } });
+            learnirClient.record({
+                event: "box.visit",
+                context: {
+                    "box": box.id
+                }
+            });
         };
     }, []);
 
@@ -87,25 +92,27 @@ export default function Box({ content }) {
                                                 }
                                             }
                                         }}
-                                        onStart={()=>{
+                                        onStart={() => {
                                             // record when consumer clicks to watch video
-                                            learnirClient.record({ 
-                                                event: "section.video.watch",  
+                                            learnirClient.record({
+                                                event: "section.video.watch",
                                                 consumer: AppState.profile?.id,
                                                 context: {
+                                                    box: box?.id,
                                                     section: section.id
                                                 }
-                                            }); 
+                                            });
                                         }}
-                                        onEnded={()=>{
+                                        onEnded={() => {
                                             // record when consumer clicks to watch video
-                                            learnirClient.record({ 
-                                                event: "section.video.complete",  
+                                            learnirClient.record({
+                                                event: "section.video.complete",
                                                 consumer: AppState.profile?.id,
                                                 context: {
+                                                    box: box?.id,
                                                     section: section.id
                                                 }
-                                            }); 
+                                            });
                                         }}
                                     />
                                     :
@@ -146,21 +153,23 @@ export default function Box({ content }) {
                                     role="button"
                                     key={index}
                                     className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
-                                    onClick={() => { 
-                                        setSection(step); 
-                                        learnirClient.record({ 
-                                            event: "section.visit",  
+                                    onClick={() => {
+                                        setSection(step);
+                                        learnirClient.record({
+                                            event: "section.visit",
                                             context: {
+                                                box: box?.id,
                                                 section: step.id
                                             }
-                                        }); 
-                                        learnirClient.record({ 
-                                            event: "section.complete",  
+                                        });
+                                        learnirClient.record({
+                                            event: "section.complete",
                                             context: {
+                                                box: box?.id,
                                                 section: step.id
                                             }
-                                        }); 
-                                        }}>
+                                        });
+                                    }}>
                                     <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
                                 </div>
                             ))}
