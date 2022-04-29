@@ -17,13 +17,13 @@ const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": 
 export default function Account() {
   const AppState = useContext(PortalStateContext);
 
-  useEffect(() => {
-    learnirClient.record({
-      event: "account-page-visit",
-      consumer: AppState.profile?.id,
-      context: {}
-    });
-  }, []);
+  // useEffect(() => {
+  //   learnirClient.record({
+  //     event: "account-page-visit",
+  //     consumer: AppState.profile?.id,
+  //     context: {}
+  //   });
+  // }, []);
 
   return (
     <div className="container-struc">

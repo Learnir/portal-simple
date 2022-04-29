@@ -63,7 +63,7 @@ export default function Header(props) {
             axios.post(`${config.integrations.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
-                learnirClient.consumer({ id: `${AppState.profile().id}`, name: AppState.profile().name, email: AppState.profile().email }).then(response => {
+                learnirClient.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {
                     console.log("consumer-create", response.data);
                 }).catch(error => {
                     console.log("consumer-create-error", error);
@@ -71,7 +71,7 @@ export default function Header(props) {
                 // close the dialog
                 // state will change automatically
                 AppState.setShow(false);
-                setAuthData({ ...getAuthData, name: AppState.profile().name });
+                setAuthData({ ...getAuthData, name: AppState.profile.data?.name });
                 alert("Authenticated Successfully!");
             }).catch((error) => {
                 console.log("AuthIn error data", error);
@@ -92,17 +92,17 @@ export default function Header(props) {
     function AuthUpdate() {
         if (AppState.authenticated()) {
             // code is sent already, send code authenticate request
-            axios.put(`${config.integrations.endpoint}/v1/interfaces/portal/account/${AppState.profile()?.id}`, getAuthData).then((response) => {
+            axios.put(`${config.integrations.endpoint}/v1/interfaces/portal/account/${AppState.profile.data?.id}`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // consumer name update
-                learnirClient.consumer({ id: `${AppState.profile().id}`, name: AppState.profile().name }).then(response => {
+                learnirClient.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name }).then(response => {
                     console.log("consumer-update", response.data);
                 }).catch(error => {
                     console.log("consumer-update-error", error);
                 });
                 // close the dialog
                 // state will change automatically
-                setAuthData({ ...getAuthData, name: AppState.profile().name });
+                setAuthData({ ...getAuthData, name: AppState.profile.data.name });
                 AppState.setShow(false);
                 alert("Updated Successfully!");
             }).catch((error) => {
@@ -142,7 +142,7 @@ export default function Header(props) {
                                         AppState.authenticated() ?
                                             <div className="align-items-center">
                                                 <h6 size={300} className="pointed cursor mt-2">
-                                                    <AvatarIcon style={{ height: 15, width: "auto", fontWeight: 900, marginBottom: "3px" }} /> {AppState.profile()?.name}
+                                                    <AvatarIcon style={{ height: 15, width: "auto", fontWeight: 900, marginBottom: "3px" }} /> {AppState.profile.data?.name}
                                                 </h6>
                                             </div>
                                             :

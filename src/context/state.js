@@ -16,22 +16,24 @@ export function PortalStateProvider({ children }) {
   // functions
   const isBrowser = () => typeof window !== "undefined";
   const authenticated = () => isBrowser() && localStorage.getItem("token") ? true : false;
-  const profile = () => {
-    let user = {};
-    const token = isBrowser() && localStorage.getItem("token");
-    if (token) {
-      let tokenProfile = token.split('.')[1];
-      if (isBrowser() && window.atob(tokenProfile)) {
-        let payload = isBrowser() && window.atob(tokenProfile);
-        user = JSON.parse(payload);
+  const profile = {
+    get data() {
+      let user = {};
+      const token = isBrowser() && localStorage.getItem("token");
+      if (token) {
+        let tokenProfile = token.split('.')[1];
+        if (isBrowser() && window.atob(tokenProfile)) {
+          let payload = isBrowser() && window.atob(tokenProfile);
+          user = JSON.parse(payload);
+        } else {
+          typeof window !== 'undefined' && localStorage.clear();
+          return null;
+        }
       } else {
-        typeof window !== 'undefined' && localStorage.clear();
         return null;
       }
-    } else {
-      return null;
+      return user;
     }
-    return user;
   }
 
   const data = {
@@ -52,15 +54,16 @@ export const AppStateContext = PortalContext;
 // configuration(app-wide)
 export const config = {
   company: {
-    logo: "https://learnir.co/logo.svg",
-    name: "Company",
+    logo: "/heap_logo.png",
+    name: "Heap University",
+    cover: "https://heap.io/img/placeholder.png",
   },
   portal: {
     title: "Product Training",
     description: "Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir."
   },
   integrations: {
-    key: "325649396932805193",
+    key: "329936155895136841",
     endpoint: typeof window !== "undefined" && window.location.hostname == "locahost" ? "http://localhost:9060" : "https://api.learnir.co"
   }
 }

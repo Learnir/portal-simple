@@ -8,11 +8,11 @@ import Link from 'next/link'
 import { Link2Icon } from '@radix-ui/react-icons'
 import ReactPlayer from 'react-player'
 
-import { PortalStateContext } from '../../context/state';
-import { config } from '../../context/state';
+import { PortalStateContext } from '../context/state';
+import { config } from '../context/state';
 
-import Header from '../../components/header'
-import Footer from '../../components/footer'
+import Header from '../components/header'
+import Footer from '../components/footer'
 
 const learnir = require("learnir-javascript-sdk");
 const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
     let response = await learnirClient.content();
     return {
         paths: response.data.map((box) => {
-            return { params: { title: `${box.slug}`, } }
+            return { params: { title: `${box.slug}` }}
         }),
         fallback: false,
     }
@@ -29,33 +29,31 @@ export async function getStaticPaths() {
 
 export async function getStaticProps() {
     let response = await learnirClient.content();
-    return { props: { content: response.data } }
+    return { props: { content: response.data }, revalidate: 60 }
 }
 
 export default function Box({ content }) {
 
     const router = useRouter();
     const AppState = useContext(PortalStateContext);
-
-    let [menu, setMenu] = useState(false);
     let [box, setBox] = useState();
     let [section, setSection] = useState();
 
-    let links = [
-        { label: "Home", path: "/" },
-        { label: "Content", path: "/#content" },
-    ];
-
     useEffect(() => {
         let box = content.filter(choice => choice.slug == router.query.title)[0];
+
+        // get the records of the profile
+        // 
+
+
         if (box) {
             setBox(box);
             if (box.sections) {
                 setSection(box.sections[0]);
             }
-
             learnirClient.record({
                 event: "box.visit",
+                consumer: AppState.profile.data?.id,
                 context: {
                     "box": box.id
                 }
@@ -96,7 +94,7 @@ export default function Box({ content }) {
                                             // record when consumer clicks to watch video
                                             learnirClient.record({
                                                 event: "section.video.watch",
-                                                consumer: AppState.profile?.id,
+                                                consumer: AppState.profile.data.id,
                                                 context: {
                                                     box: box?.id,
                                                     section: section.id
@@ -107,7 +105,7 @@ export default function Box({ content }) {
                                             // record when consumer clicks to watch video
                                             learnirClient.record({
                                                 event: "section.video.complete",
-                                                consumer: AppState.profile?.id,
+                                                consumer: AppState.profile.data.id,
                                                 context: {
                                                     box: box?.id,
                                                     section: section.id
