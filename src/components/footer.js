@@ -8,8 +8,8 @@ import { FaceIcon, ImageIcon, HamburgerMenuIcon, Cross1Icon } from '@radix-ui/re
 
 export default function Footer(props) {
     return (
-        <footer className="pt-3 pb-3 mt-5 container footer-struc">
-            <div className="hero row mx-auto pt-5 border-top">
+        <footer className="pt-2 pb-2 mt-5 container footer-struc">
+            <div className="hero row mx-auto pt-4 border-top">
                 <div className="col-8 text-center mx-auto">
                     <p>&copy;	A Portal Simple learning experience</p>
                 </div>

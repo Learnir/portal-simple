@@ -49,12 +49,16 @@ export default function Index({content}) {
 
         <div className="row mx-auto pt-3 p-0 align-items-center">
           <div className="col-lg-6 col-md-12 col-sm-12 text-left align-items-center">
-            <h2>{config.portal.title}</h2>
+            <h2 className="pt-2">{config.portal.title}</h2>
             <p>{config.portal.description}</p>
-            <Link href="/#content"><button className="p-2 pe-3 ps-3">Explore Courses</button></Link>
+
+            <Link href="/#content"><button className="p-2 pe-3 ps-3 border">Help Center</button></Link>
+            <Link href="/#content"><button className="p-2 pe-3 ps-3 mr-2 border">Training Team</button></Link>
+            <Link href="/#content"><button className="p-2 pe-3 ps-3 mr-2 border">Heap Community</button></Link>
+
           </div>
-          <div className="col-lg-6 col-md-12 col-sm-12 align-items-right text-right p-0">
-            <img src={config.company.cover}  className="text-right rounded-top mb-2" height="100px" width="auto" />
+          <div className="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-end">
+            <img src={config.company.cover}  className="rounded-top mb-2" height="80px" width="auto" />
           </div>
         </div>
 

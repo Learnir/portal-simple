@@ -44,7 +44,8 @@ export default function Header(props) {
 
     let links = [
         { label: "Home", path: "/" },
-        { label: "Content", path: "/#content" },
+        { label: "Courses", path: "/#content" },
+        { label: "Support", path: "/#content" },
     ];
 
     const [getAuthData, setAuthData] = useState({ email: '', code: '', name: "" })

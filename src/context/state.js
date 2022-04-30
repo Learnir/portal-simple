@@ -56,11 +56,11 @@ export const config = {
   company: {
     logo: "/heap_logo.png",
     name: "Heap University",
-    cover: "https://heap.io/img/placeholder.png",
+    cover: "/heap_university.png",
   },
   portal: {
-    title: "Product Training",
-    description: "Welcome to your learning experience. A free and hands on collection of courses to help you build your learning experiences with Learnir."
+    title: "Welcome!",
+    description: "The courses you find in Heap University are designed to help get you up and running with Heap. With Heap, everything is measurable and any data point is ready for analysis. Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!"
   },
   integrations: {
     key: "329936155895136841",
