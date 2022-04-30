@@ -70,9 +70,18 @@ export default function Box({ content }) {
                         setEnrolled(false);
                         setLoading(false);
                     }
+                }).catch(error => {
+                    setEnrolled(false);
+                    setLoading(false);
                 })
+            } else {
+                setEnrolled(false);
+                setLoading(false);
             }
-        };
+        } else {
+            setEnrolled(false);
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -256,7 +265,15 @@ export default function Box({ content }) {
                     }
                 </main>
                 :
-                <p>Loading</p>
+                <main className="container main-struc ps-1 pe-1">
+
+                    <div className="row mx-auto pt-5">
+                        <div className="col-lg-4 col-md-12 col-sm-12 text-center mx-auto">
+                            <div className="lds-ripple mx-auto"><div></div><div></div></div>
+                            <p className="mt-2 mx-auto">Loading...</p>
+                        </div>
+                    </div>
+                </main>
             }
 
             <Footer />
