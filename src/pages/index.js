@@ -112,7 +112,7 @@ export default function Index({ content }) {
 
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-end">
-            <img src={config.company.cover} className="rounded-top mb-2" height="80px" width="auto" />
+            <img src={config.organization.cover} className="rounded-top mb-2" height="80px" width="auto" />
           </div>
         </div>
 

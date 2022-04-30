@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
 
-import { FaceIcon, AvatarIcon, HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
+import { FaceIcon, AvatarIcon, HamburgerMenuIcon, Cross1Icon, ChevronLeftIcon } from '@radix-ui/react-icons'
 
 import { AppStateContext } from '../context/state';
 import { config } from '../context/state';
@@ -41,6 +41,9 @@ export default function Header(props) {
     const AppState = useContext(AppStateContext);
 
     let [menu, setMenu] = useState(false);
+    const [getAuthData, setAuthData] = useState({ email: '', code: '', name: "" })
+    const [getLoading, setLoading] = useState(false);
+    const [getCodeSent, setCodeSent] = useState(false);
 
     let links = [
         { label: "Home", path: "/" },
@@ -48,10 +51,7 @@ export default function Header(props) {
         { label: "Support", path: "/#content" },
     ];
 
-    const [getAuthData, setAuthData] = useState({ email: '', code: '', name: "" })
-    const [getLoading, setLoading] = useState(false);
-    const [getCodeSent, setCodeSent] = useState(false);
-
+    
     function TextInputEvent(e) {
         let name = e.target.name
         let value = e.target.value
@@ -120,8 +120,8 @@ export default function Header(props) {
                         <div className="col-lg-6 col-md-12 col-sm-12">
                             <Link href={"/"} >
                                 <div className="text-left d-flex align-items-center">
-                                    <img src={config.company.logo} className="rounded" height="30px" width="30px" />
-                                    <h6 className="pointed ms-3 mt-2">{config.company.name}</h6>
+                                    <img src={config.organization.logo} className="rounded" height="30px" width="30px" />
+                                    <h6 className="pointed ms-3 mt-2">{config.organization.name}</h6>
                                 </div>
                             </Link>
                         </div>
@@ -154,8 +154,18 @@ export default function Header(props) {
                                 <Dialog.Portal>
                                     <Overlay>
                                         <Content className="dialog">
-                                            <h2 size={300} className="m" >Auth In</h2>
-                                            <p size={300} className="mb-3" >{!getCodeSent ? 'This will tye activities to your profile.' : 'Code has been sent to your email.'}</p>
+
+                                            {AppState.authenticated() &&
+                                                <p size={300} className="m" role="button" onClick={() => {
+                                                    localStorage.removeItem("token");
+                                                    AppState.setShow(false);
+                                                }}>
+                                                    <ChevronLeftIcon className='mb-1' /> Sign out
+                                                </p>
+                                            }
+
+                                            <h2 size={300} className="mt-2"> {AppState.authenticated() ? AppState.profile.data.name : "Auth In"}</h2>
+                                            <p size={300} className="mb-3" >{!getCodeSent ? 'This will help you keep your learning histories etc.' : 'Code has been sent to your email.'}</p>
 
                                             {!AppState.authenticated() ?
                                                 <input
@@ -189,14 +199,16 @@ export default function Header(props) {
                                             {AppState.authenticated() ?
                                                 <div className="text-center p-3s">
                                                     <button className="bg-brand col-12 mt-2 p-2 text-white" onClick={AuthUpdate}>Update</button>
-                                                    <button className="border-0 col-3 mx-auto mt-4 p-2 text-brand" onClick={() => {
-                                                        localStorage.removeItem("token");
-                                                        AppState.setShow(false);
-                                                    }}>Sign Out</button>
+
+                                                    <Link href="/account">
+                                                        <button className="border-0 col-12 mx-auto mt-4 p-2 text-brand">View Profile Page</button>
+                                                    </Link>
                                                 </div>
                                                 :
                                                 <button className="bg-brand w-100 mt-2 p-2 text-white" onClick={AuthIn}>{!getCodeSent ? 'Send Login Code' : 'Complete AuthIn'}</button>
                                             }
+
+
 
                                         </Content>
                                     </Overlay>

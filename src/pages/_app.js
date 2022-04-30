@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import { PortalStateProvider } from '../context/state';
+import { AppStateProvider } from '../context/state';
 import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/globals.css'
 
@@ -14,7 +14,7 @@ function SafeHydrate({ children }) {
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <PortalStateProvider>
+    <AppStateProvider>
       <div>
         <Head>
           <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
@@ -23,6 +23,6 @@ export default function MyApp({ Component, pageProps }) {
           <SafeHydrate><Component {...pageProps} /></SafeHydrate>
         </div>
       </div>
-    </PortalStateProvider>
+    </AppStateProvider>
   )
 }

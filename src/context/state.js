@@ -3,15 +3,17 @@ import { useRouter } from 'next/router'
 
 const PortalContext = createContext();
 
-export function PortalStateProvider({ children }) {
-
+export function AppStateProvider({ children }) {
   const router = useRouter()
 
   // data
-  const [getPort, setPort] = useState(null);
+  const [getContent, setContent] = useState([]);
   const [getBox, setBox] = useState(null);
   const [getSection, setSection] = useState();
   const [getShow, setShow] = useState(false);
+
+  const [getRecords, setRecords] = useState([]);
+  const [getInteractions, setInteractions] = useState([]);
 
   // functions
   const isBrowser = () => typeof window !== "undefined";
@@ -38,10 +40,15 @@ export function PortalStateProvider({ children }) {
 
   const data = {
     authenticated, profile, isBrowser,
+    
+    getContent, setContent,
 
     getShow, setShow,
     getBox, setBox,
     getSection, setSection,
+
+    getRecords, setRecords,
+    getInteractions, setInteractions
   };
 
   return (<PortalContext.Provider value={data}> {children} </PortalContext.Provider>);
@@ -53,7 +60,7 @@ export const AppStateContext = PortalContext;
 
 // configuration(app-wide)
 export const config = {
-  company: {
+  organization: {
     logo: "/heap_logo.png",
     name: "Heap University",
     cover: "/heap_university.png",
