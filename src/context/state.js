@@ -60,7 +60,10 @@ export const config = {
   },
   portal: {
     title: "Welcome!",
-    description: "The courses you find in Heap University are designed to help get you up and running with Heap. With Heap, everything is measurable and any data point is ready for analysis. Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!"
+    description: `The courses you find in Heap University are designed to help get you up and running with Heap. With Heap, everything is measurable and a
+    ny data point is ready for analysis. Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
+
+    listings_style: "uncategorized", // categorized, uncategorized - categorized, renders by what is in the tags of
   },
   integrations: {
     key: "329936155895136841",

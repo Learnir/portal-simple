@@ -194,6 +194,16 @@ button{
 }
 
 
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;  
+  overflow: hidden !important;
+}
+
+
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
