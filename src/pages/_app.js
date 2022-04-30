@@ -18,6 +18,7 @@ export default function MyApp({ Component, pageProps }) {
       <div>
         <Head>
           <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
+          <script type='module' src='https://unpkg.com/learnir-exp-module@0.6.0/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>
         </Head>
         <div>
           <SafeHydrate><Component {...pageProps} /></SafeHydrate>

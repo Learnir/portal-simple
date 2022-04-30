@@ -11,6 +11,9 @@ export function AppStateProvider({ children }) {
   const [getBox, setBox] = useState(null);
   const [getSection, setSection] = useState();
   const [getShow, setShow] = useState(false);
+  const [getView, setView] = useState(false);
+
+  const [getCompData, setCompData] = useState();
 
   const [getRecords, setRecords] = useState([]);
   const [getInteractions, setInteractions] = useState([]);
@@ -44,6 +47,9 @@ export function AppStateProvider({ children }) {
     getContent, setContent,
 
     getShow, setShow,
+    getView, setView,
+    getCompData, setCompData,
+
     getBox, setBox,
     getSection, setSection,
 

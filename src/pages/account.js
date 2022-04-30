@@ -20,18 +20,16 @@ export default function Account() {
   const [enrollments, setEnrollments] = useState([]);
   const [completions, setCompletions] = useState([]);
 
-  useEffect(() => {
-  }, []);
-
-  useEffect(() => {
-    AppState.setShow(false);
-
+  function GeneratePageData() {
     // get enrolled boxes 
     if (AppState.profile.data?.id) {
+
+      // get content boxes
       learnirClient.content(AppState.profile.data.id).then(response => {
         let content = response.data;
         AppState.setContent(content);
 
+        // get learning events (unqique)
         learnirClient.records(AppState.profile.data.id).then(response => {
           // enrolled boxes array
           let enrolled = [];
@@ -52,7 +50,6 @@ export default function Account() {
             }
           });
 
-
           let enrollments_ids = [...new Set(enrolled)];
           let completions_ids = [...new Set(completed)];
 
@@ -60,9 +57,7 @@ export default function Account() {
           let enrollments = [];
           content.forEach((box, index) => {
             if (enrollments_ids.includes(box.id)) {
-
               let enrollment_events = enrolled_meta.filter(event => event.event_name == "box.enrolled" && event.event_context.box);
-
               enrollments.push({
                 ...box,
                 title: box.title,
@@ -79,9 +74,35 @@ export default function Account() {
           setEnrollments(enrollments);
         });
       });
+
+      learnirClient.interactions(AppState.profile.data.id).then(response => {
+        let interactions = response.data;
+        // objects are rendered as is
+        AppState.setInteractions(interactions);
+      });
+
     }
+  }
+
+  useEffect(() => {
+    AppState.setShow(false);
+    GeneratePageData();
   }, []);
 
+
+  function ComponentView() {
+    return (<Dialog.Root open={AppState.getView} onOpenChange={(open) => AppState.setView(open)}>
+      <Dialog.Portal>
+        <Overlay>
+          <Content className="dialog">
+            <h2 size={300} className="mt-2"> {AppState.getCompData.title} </h2>
+            <learnir-exp-module component={AppState.getCompData.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+          </Content>
+        </Overlay>
+      </Dialog.Portal>
+    </Dialog.Root>
+    )
+  }
   return (
     <div className="container-struc">
       <Head>
@@ -91,6 +112,8 @@ export default function Account() {
       </Head>
 
       <Header />
+
+      {ComponentView()}
 
       <main className="container main-struc">
         <div className="row mx-auto pt-3">
@@ -125,10 +148,27 @@ export default function Account() {
           <div className="col-lg-4 col-md-12 col-sm-12 text-left">
             <h3 className=""> Interactions </h3>
 
+            <div className="row align-items-center">
+              {AppState.getInteractions.map((box, index) => {
+                return (
+                  <div key={index} className="col-lg-12 col-md-12 col-sm-12 text-left mt-2">
+                    <div className="w-100 h-auto border rounded p-3 pb-0">
+                      <h5 className="text-">{box.title}</h5>
+                      <p className="">Type: {box.component}</p>
+                      <p className="">Worked on: {new Date(box.updated ? box.updated : box.added).toLocaleDateString()}</p>
+                      <p className="" onClick={() => {
+                        // openComponent Viewer
+                      }}>View</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
           </div>
 
         </div>
-      </main>
+      </main >
 
       <Footer />
 
