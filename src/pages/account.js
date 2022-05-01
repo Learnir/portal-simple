@@ -10,6 +10,28 @@ import Footer from '../components/footer'
 import { PortalStateContext } from '../context/state';
 import { config } from '../context/state';
 import { ArrowTopRightIcon, AvatarIcon } from '@radix-ui/react-icons'
+import * as Dialog from '@radix-ui/react-dialog';
+import { styled } from '@stitches/react';
+
+const Overlay = styled(Dialog.Overlay, {
+  background: 'rgba(0 0 0 / 0.5)',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  display: 'grid',
+  placeItems: 'center',
+  overflowY: 'auto',
+});
+
+const Content = styled(Dialog.Content, {
+  width: 420,
+  background: 'white',
+  padding: 30,
+  borderRadius: 4,
+});
+
 
 const learnir = require("learnir-javascript-sdk");
 const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
@@ -91,12 +113,12 @@ export default function Account() {
 
 
   function ComponentView() {
-    return (<Dialog.Root open={AppState.getView} onOpenChange={(open) => AppState.setView(open)}>
+    return (<Dialog.Root open={AppState.getView && AppState.getCompData} onOpenChange={(open) => AppState.setView(open)}>
       <Dialog.Portal>
         <Overlay>
           <Content className="dialog">
-            <h2 size={300} className="mt-2"> {AppState.getCompData.title} </h2>
-            <learnir-exp-module component={AppState.getCompData.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+            <h2 size={300} className="mt-2"> {AppState.getCompData?.title} </h2>
+            <learnir-exp-module component={AppState.getCompData?.id} consumer={AppState.profile.data?.id} ></learnir-exp-module>
           </Content>
         </Overlay>
       </Dialog.Portal>

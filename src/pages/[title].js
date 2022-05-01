@@ -18,6 +18,7 @@ import Footer from '../components/footer'
 const learnir = require("learnir-javascript-sdk");
 const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
 
+
 export async function getStaticPaths() {
     let response = await learnirClient.content();
     return {
@@ -104,47 +105,52 @@ export default function Box({ content }) {
                         <div className="row mx-auto pt-2">
                             <div className="col-lg-8 col-md-12 col-sm-12">
                                 <div className="row">
+
                                     <h3 className="d-flex justify-content-between mb-3"> {section?.title} </h3>
-                                    {
-                                        section?.files.video ?
-                                            <ReactPlayer
-                                                controls={true}
-                                                url={section?.files?.video}
-                                                className="w-100 h-auto rounded portal-video-box"
-                                                config={{
-                                                    file: {
-                                                        attributes: {
-                                                            onContextMenu: e => e.preventDefault(),
-                                                            controlsList: 'nodownload'
-                                                        }
+
+                                    {section.type == "component" &&
+                                        <learnir-exp-module component={section.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+                                    }
+
+                                    {section?.files.video ?
+                                        <ReactPlayer
+                                            controls={true}
+                                            url={section?.files?.video}
+                                            className="w-100 h-auto rounded portal-video-box"
+                                            config={{
+                                                file: {
+                                                    attributes: {
+                                                        onContextMenu: e => e.preventDefault(),
+                                                        controlsList: 'nodownload'
                                                     }
-                                                }}
-                                                onStart={() => {
-                                                    // record when consumer clicks to watch video
-                                                    learnirClient.record({
-                                                        event: "section.video.watch",
-                                                        consumer: AppState.profile.data.id,
-                                                        context: {
-                                                            box: box?.id,
-                                                            section: section.id
-                                                        }
-                                                    });
-                                                }}
-                                                onEnded={() => {
-                                                    // record when consumer clicks to watch video
-                                                    learnirClient.record({
-                                                        event: "section.video.complete",
-                                                        consumer: AppState.profile.data.id,
-                                                        context: {
-                                                            box: box?.id,
-                                                            section: section.id
-                                                        }
-                                                    });
-                                                }}
-                                            />
-                                            :
-                                            <div className="w-100 mb-3">
-                                            </div>
+                                                }
+                                            }}
+                                            onStart={() => {
+                                                // record when consumer clicks to watch video
+                                                learnirClient.record({
+                                                    event: "section.video.watch",
+                                                    consumer: AppState.profile.data.id,
+                                                    context: {
+                                                        box: box?.id,
+                                                        section: section.id
+                                                    }
+                                                });
+                                            }}
+                                            onEnded={() => {
+                                                // record when consumer clicks to watch video
+                                                learnirClient.record({
+                                                    event: "section.video.complete",
+                                                    consumer: AppState.profile.data.id,
+                                                    context: {
+                                                        box: box?.id,
+                                                        section: section.id
+                                                    }
+                                                });
+                                            }}
+                                        />
+                                        :
+                                        <div className="w-100 mb-3">
+                                        </div>
                                     }
                                 </div>
                                 <div className="row mt-3 justify-content-start">
@@ -162,7 +168,6 @@ export default function Box({ content }) {
                                         })
                                     }
                                 </div>
-
                                 <div className="row justify-content-start">
                                     <div className="col-lg-12 col-md-12 col-sm-12">
                                         <div className="portal-content p-1" dangerouslySetInnerHTML={{ __html: section?.content }}>
@@ -176,9 +181,7 @@ export default function Box({ content }) {
                                 </div>
                                 <div className="w-100 mt-3">
                                     {box?.sections.map((step, index) => (
-                                        <div
-                                            role="button"
-                                            key={index}
+                                        <div role="button" key={index}
                                             className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
                                             onClick={() => {
                                                 setSection(step);
@@ -197,7 +200,9 @@ export default function Box({ content }) {
                                                     }
                                                 });
                                             }}>
+
                                             <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
+
                                         </div>
                                     ))}
                                 </div>

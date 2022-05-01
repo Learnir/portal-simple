@@ -92,7 +92,7 @@ export default function Index({ content }) {
   return (
     <div className="container-struc">
       <Head>
-        <title>Portal - Online learning experience</title>
+        <title>{config.organization.name} - {config.portal.title}</title>
         <meta name="description" content="Join us on our learning portal as we take you through beginner to mastery of our products" />
         <link rel="icon" href="/logo.png" />
       </Head>
@@ -106,9 +106,9 @@ export default function Index({ content }) {
             <h2 className="pt-2">{config.portal.title}</h2>
             <p>{config.portal.description}</p>
 
-            <Link href="/#content"><button className="p-2 pe-3 ps-3 border">Help Center</button></Link>
-            <Link href="/#content"><button className="p-2 pe-3 ps-3 mr-2 border">Training Team</button></Link>
-            <Link href="/#content"><button className="p-2 pe-3 ps-3 mr-2 border">Heap Community</button></Link>
+            <a target="_blank" href={config.organization.links.help_center}><button className="p-2 pe-3 ps-3 border">Help Center</button></a>
+            <a href={`mailto:${config.organization.email}`}><button className="p-2 pe-3 ps-3 mr-2 border">Training Team</button></a>
+            <a target="_blank" href={config.organization.links.community}><button className="p-2 pe-3 ps-3 border">Heap Community</button></a>
 
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-end">

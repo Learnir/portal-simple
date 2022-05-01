@@ -70,6 +70,11 @@ export const config = {
     logo: "/heap_logo.png",
     name: "Heap University",
     cover: "/heap_university.png",
+    email: "training@heap.io",
+    links: {
+      help_center: "https://help.heap.io",
+      community: "https://community.heap.io",
+    }
   },
   portal: {
     title: "Welcome!",
