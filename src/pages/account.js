@@ -26,10 +26,12 @@ const Overlay = styled(Dialog.Overlay, {
 });
 
 const Content = styled(Dialog.Content, {
-  width: 420,
+  width: 'auto',
   background: 'white',
+  height: "80vh",
   padding: 30,
   borderRadius: 4,
+  overflowY: "scroll"
 });
 
 
@@ -112,20 +114,22 @@ export default function Account() {
     GeneratePageData();
   }, []);
 
-
   function ComponentView() {
     return (<Dialog.Root open={AppState.getView && AppState.getCompData} onOpenChange={(open) => AppState.setView(open)}>
       <Dialog.Portal>
         <Overlay>
           <Content className="dialog">
-            <h2 size={300} className="mt-2"> {AppState.getCompData?.title} </h2>
-            <learnir-exp-module component={AppState.getCompData?.id} consumer={AppState.profile.data?.id} ></learnir-exp-module>
+            <h3 size={300} className="mt-2 border-bottom pb-3 mb-2"> {AppState.getCompData?.title} </h3>
+            {AppState.getCompData?.id && AppState.profile.data.id &&
+              <learnir-exp-module component={AppState.getCompData.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+            }
           </Content>
         </Overlay>
       </Dialog.Portal>
     </Dialog.Root>
     )
   }
+
   return (
     <div className="container-struc">
       <Head>
@@ -174,13 +178,15 @@ export default function Account() {
             <div className="row align-items-center">
               {AppState.getInteractions.map((box, index) => {
                 return (
-                  <div key={index} className="col-lg-12 col-md-12 col-sm-12 text-left mt-2">
-                    <div className="w-100 h-auto border rounded p-3 pb-0">
+                  <div key={index} className="col-lg-12 col-md-12 col-sm-12 text-left align-items-top h-auto mt-2">
+                    <div className="w-100 border rounded p-3">
                       <h5 className="text-">{box.title}</h5>
-                      <p className="">Type: {box.component}</p>
-                      <p className="">Worked on: {new Date(box.updated ? box.updated : box.added).toLocaleDateString()}</p>
-                      <p className="" onClick={() => {
+                      <p className="mb-0">Type: {box.component}</p>
+                      <p className="mb-0 mt-2">Worked on: {new Date(box.updated ? box.updated : box.added).toLocaleDateString()}</p>
+                      <p className="text-brand mb-0 mt-2" role="button" onClick={() => {
                         // openComponent Viewer
+                        AppState.setCompData(box);
+                        AppState.setView(true);
                       }}>View</p>
                     </div>
                   </div>
