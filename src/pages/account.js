@@ -99,6 +99,7 @@ export default function Account() {
 
       learnirClient.interactions(AppState.profile.data.id).then(response => {
         let interactions = response.data;
+        console.log("interactions", interactions);
         // objects are rendered as is
         AppState.setInteractions(interactions);
       });
