@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import { AppStateProvider } from '../context/state';
+import { AppStateProvider, config } from '../context/state';
 import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/globals.css'
 
@@ -17,7 +17,7 @@ export default function MyApp({ Component, pageProps }) {
     <AppStateProvider>
       <div>
         <Head>
-          <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
+          <link rel="shortcut icon" href={config.organization.logo} type="image/x-icon" />
           <script type='module' src='https://unpkg.com/learnir-exp-module@0.8.0/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>
         </Head>
         <div>

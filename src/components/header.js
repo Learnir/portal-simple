@@ -40,7 +40,7 @@ export default function Header(props) {
 
     const AppState = useContext(AppStateContext);
     const router = useRouter();
-    
+
     let [menu, setMenu] = useState(false);
     const [getAuthData, setAuthData] = useState({ email: '', code: '', name: "" })
     const [getLoading, setLoading] = useState(false);
@@ -49,10 +49,10 @@ export default function Header(props) {
     let links = [
         { label: "Home", path: "/" },
         { label: "Courses", path: "/#content" },
-        { label: "Support", path: "/#content" },
+        // { label: "Support", path: "/#content" },
     ];
 
-    
+
     function TextInputEvent(e) {
         let name = e.target.name
         let value = e.target.value
@@ -137,6 +137,10 @@ export default function Header(props) {
                                     )
                                 })
                             }
+
+                            <span className="me-5 align-items-center">
+                                <a href={`mailto:${config.organization.email}`}  className="pointed cursor mt-2 text-dark text-decoration-none"><h6 className="pointed cursor mt-2 text-dark text-decoration-none">Support</h6></a>
+                            </span>
 
                             <Dialog.Root open={AppState.getShow} onOpenChange={(open) => AppState.setShow(open)}>
                                 <Dialog.Trigger className="pt-0 pb-0 border-none border-0">
