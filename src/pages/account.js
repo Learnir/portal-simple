@@ -160,7 +160,7 @@ export default function Account() {
                     <div className="w-100 h-auto border rounded p-3 pb-0">
                       <h5 className="text-">
                         {box.title}
-                        <Link href={`/${box.slug}`} target="_blank" className="ml-2 text-brand" rol="button"><ArrowTopRightIcon className="text-brand" role={"button"} /></Link>
+                        <Link href={`/${box.slug}`} target="_blank"  rel="noreferrer" className="ml-2 text-brand" rol="button"><ArrowTopRightIcon className="text-brand" role={"button"} /></Link>
                       </h5>
                       <p className="">Enrollment: {box.enrolled}</p>
                       <p className="">Completion: {box.completed}</p>

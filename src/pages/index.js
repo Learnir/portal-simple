@@ -106,9 +106,9 @@ export default function Index({ content }) {
             <h2 className="pt-2">{config.portal.title}</h2>
             <p>{config.portal.description}</p>
 
-            <a target="_blank" href={config.organization.links.help_center}><button className="p-2 pe-3 ps-3 border">Help Center</button></a>
+            <a target="_blank" rel="noreferrer" href={config.organization.links.help_center}><button className="p-2 pe-3 ps-3 border">Help Center</button></a>
             <a href={`mailto:${config.organization.email}`}><button className="p-2 pe-3 ps-3 mr-2 border">Training Team</button></a>
-            <a target="_blank" href={config.organization.links.community}><button className="p-2 pe-3 ps-3 border">Heap Community</button></a>
+            <a target="_blank" rel="noreferrer" href={config.organization.links.community}><button className="p-2 pe-3 ps-3 border">Heap Community</button></a>
 
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-end">
