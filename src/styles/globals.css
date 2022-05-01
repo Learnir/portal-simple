@@ -181,6 +181,12 @@ button{
   background: var(--light-yellow) !important;
 }
 
+
+.bg-whitish{
+  background: #F9F9F9 !important;
+}
+
+
 .box-shadow-muted {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
@@ -249,6 +255,20 @@ button{
   }
 }
 
+.sections-list{
+  height: 80vh;
+  overflow-y: scroll;
+}
+
+.sections-list{
+  height: 80vh;
+  overflow-y: scroll;
+}
+
+.learning-section{
+  height: 80vh;
+  overflow-y: scroll;
+}
 
 .lds-ripple {
   display: inline-block;

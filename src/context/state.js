@@ -67,9 +67,9 @@ export const AppStateContext = PortalContext;
 // configuration(app-wide)
 export const config = {
   organization: {
-    logo: "/heap_logo.png",
-    name: "Heap University",
-    cover: "/heap_university.png",
+    logo: "https://learnir.co/logo.svg",
+    name: "Product Training",
+    cover: "/banner.svg",
     email: "training@heap.io",
     links: {
       help_center: "https://help.heap.io",

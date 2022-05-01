@@ -102,20 +102,19 @@ export default function Box({ content }) {
             {!loading ?
                 <main className={`container main-struc ps-1 pe-1`}>
                     {enrolled ?
-                        <div className="row mx-auto pt-2">
-                            <div className="col-lg-8 col-md-12 col-sm-12">
-                                <div className="row">
-
-                                    <h3 className="d-flex justify-content-between mb-3"> {section?.title} </h3>
-
-                                    {section.type == "component" &&
+                        <div className="row mx-auto pt-2 border rounded">
+                            <div className="col-lg-8 col-md-12 col-sm-12 p-3 rounded learning-section bg-white">
+                                <div className="row p-2">
+                                    {section.type == "component" ?
                                         <learnir-exp-module component={section.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+                                        :
+                                        <h3 className="d-flex justify-content-between mb-3"> {section.title} </h3>
                                     }
 
-                                    {section?.files.video ?
+                                    {section.files.video ?
                                         <ReactPlayer
                                             controls={true}
-                                            url={section?.files?.video}
+                                            url={section.files.video}
                                             className="w-100 h-auto rounded portal-video-box"
                                             config={{
                                                 file: {
@@ -153,9 +152,9 @@ export default function Box({ content }) {
                                         </div>
                                     }
                                 </div>
-                                <div className="row mt-3 justify-content-start">
+                                <div className="row mt-3 justify-content-start p-2">
                                     {
-                                        section?.files?.others.map((file, index) => {
+                                        section.files?.others.map((file, index) => {
                                             return (
                                                 <div className="col-lg-4 col-md-12 col-sm-12" key={index}>
                                                     <a target="_blank" rel="noreferrer" href={file.url} download={file.name} className="text-decoration-none text-dark">
@@ -169,13 +168,13 @@ export default function Box({ content }) {
                                     }
                                 </div>
                                 <div className="row justify-content-start">
-                                    <div className="col-lg-12 col-md-12 col-sm-12">
-                                        <div className="portal-content p-1" dangerouslySetInnerHTML={{ __html: section?.content }}>
+                                    <div className="col-lg-12 col-md-12 col-sm-12 p-0">
+                                        <div className="portal-content p-1" dangerouslySetInnerHTML={{ __html: section.content }}>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4 col-md-12 col-sm-12">
+                            <div className="col-lg-4 col-md-12 col-sm-12 pt-3 rounded sections-list bg-white">
                                 <div className="w-100 mb-3">
                                     <h3 className="d-flex justify-content-between"> Sections </h3>
                                 </div>
@@ -201,7 +200,9 @@ export default function Box({ content }) {
                                                 });
                                             }}>
 
-                                            <h5 className="fw-normal text-truncate mt-2">{step.title}</h5>
+                                            <h5 className="fw-normal text-truncate mt-2">
+                                                {step.title} {step.type == "component" && <span className="bg-brand badge badge-primary">{step.component}</span>}
+                                            </h5>
 
                                         </div>
                                     ))}

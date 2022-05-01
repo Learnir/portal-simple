@@ -39,7 +39,8 @@ const axios = require('axios');
 export default function Header(props) {
 
     const AppState = useContext(AppStateContext);
-
+    const router = useRouter();
+    
     let [menu, setMenu] = useState(false);
     const [getAuthData, setAuthData] = useState({ email: '', code: '', name: "" })
     const [getLoading, setLoading] = useState(false);
@@ -159,6 +160,7 @@ export default function Header(props) {
                                                 <p size={300} className="m" role="button" onClick={() => {
                                                     localStorage.removeItem("token");
                                                     AppState.setShow(false);
+                                                    router.push("/");
                                                 }}>
                                                     <ChevronLeftIcon className='mb-1' /> Sign out
                                                 </p>
