@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Script from 'next/script'
 
 import { AppStateProvider, config } from '../context/state';
 import 'bootstrap/dist/css/bootstrap.css'
@@ -17,8 +18,8 @@ export default function MyApp({ Component, pageProps }) {
     <AppStateProvider>
       <div>
         <Head>
-          <link rel="shortcut icon" href={config.organization.logo} type="image/x-icon" />
-          <script type='module' src='https://unpkg.com/learnir-exp-module@0.8.0/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>
+          <link rel="shortcut icon" href={config.organization.logo} type="image/x-icon" />      
+          <Script type="module" src="https://unpkg.com/learnir-exp-module@0.8.0/dist/learnir-exp-module/learnir-exp-module.esm.js"></Script>
         </Head>
         <div>
           <SafeHydrate><Component {...pageProps} /></SafeHydrate>
