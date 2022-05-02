@@ -13,7 +13,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { styled } from '@stitches/react';
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.key } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
 
 const Overlay = styled(Dialog.Overlay, {
     background: 'rgba(0 0 0 / 0.5)',
@@ -65,11 +65,12 @@ export default function Header(props) {
             axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
-                learnirClient.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {
+                learnirClient.consumer({ id: AppState.profile.data.id, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {
                     console.log("consumer-create", response.data);
                 }).catch(error => {
                     console.log("consumer-create-error", error);
                 });
+
                 // close the dialog
                 // state will change automatically
                 AppState.setShow(false);
