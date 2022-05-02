@@ -43,7 +43,7 @@ export function AppStateProvider({ children }) {
 
   const data = {
     authenticated, profile, isBrowser,
-    
+
     getContent, setContent,
 
     getShow, setShow,
@@ -82,6 +82,10 @@ export const config = {
     ny data point is ready for analysis. Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
 
     listings_style: "uncategorized", // categorized, uncategorized - categorized, renders by what is in the tags of
+  },
+  learnir: {
+    port_key: "329936155895136841", // config from console product
+    endpoint: typeof window !== "undefined" && window.location.hostname == "locahost" ? "http://localhost:9060" : "https://api.learnir.co"
   },
   integrations: {
     key: "329936155895136841",

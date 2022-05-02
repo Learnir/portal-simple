@@ -36,7 +36,7 @@ const Content = styled(Dialog.Content, {
 
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
 
 export default function Account() {
   const AppState = useContext(PortalStateContext);

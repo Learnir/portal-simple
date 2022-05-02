@@ -13,7 +13,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { styled } from '@stitches/react';
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.key } } });
 
 const Overlay = styled(Dialog.Overlay, {
     background: 'rgba(0 0 0 / 0.5)',
@@ -28,7 +28,7 @@ const Overlay = styled(Dialog.Overlay, {
 });
 
 const Content = styled(Dialog.Content, {
-    width: 420,
+    width: "auto",
     background: 'white',
     padding: 30,
     borderRadius: 4,
@@ -62,7 +62,7 @@ export default function Header(props) {
     function AuthIn() {
         if (getAuthData.code) {
             // code is sent already, send code authenticate request
-            axios.post(`${config.integrations.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
+            axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
                 learnirClient.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {
@@ -80,7 +80,7 @@ export default function Header(props) {
             });
         } else {
             // send in the code -email
-            axios.post(`${config.integrations.endpoint}/v1/interfaces/portal/authin/email`, getAuthData).then((response) => {
+            axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/email`, getAuthData).then((response) => {
                 console.log("AuthIn response data", response.data);
                 setCodeSent(true);
                 alert("Your Authin code has been sent to your email.");
@@ -94,7 +94,7 @@ export default function Header(props) {
     function AuthUpdate() {
         if (AppState.authenticated()) {
             // code is sent already, send code authenticate request
-            axios.put(`${config.integrations.endpoint}/v1/interfaces/portal/account/${AppState.profile.data?.id}`, getAuthData).then((response) => {
+            axios.put(`${config.learnir.endpoint}/v1/interfaces/portal/account/${AppState.profile.data?.id}`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // consumer name update
                 learnirClient.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name }).then(response => {

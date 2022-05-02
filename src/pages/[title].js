@@ -16,7 +16,7 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
 
 
 export async function getStaticPaths() {
@@ -186,6 +186,7 @@ export default function Box({ content }) {
                                                 setSection(step);
                                                 learnirClient.record({
                                                     event: "section.visit",
+                                                    consumer: AppState.profile.data.id,
                                                     context: {
                                                         box: box?.id,
                                                         section: step.id
@@ -193,6 +194,7 @@ export default function Box({ content }) {
                                                 });
                                                 learnirClient.record({
                                                     event: "section.complete",
+                                                    consumer: AppState.profile.data.id,
                                                     context: {
                                                         box: box?.id,
                                                         section: step.id

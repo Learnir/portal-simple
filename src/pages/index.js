@@ -13,7 +13,7 @@ import { config } from '../context/state';
 import { CaretRightIcon, LightningBoltIcon } from '@radix-ui/react-icons'
 
 const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.integrations.key } } });
+const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
 
 export async function getStaticProps() {
   let response = await learnirClient.content();
@@ -128,9 +128,9 @@ export default function Index({ content }) {
                       <p className="mt-2 fw-n line-clamp">{box.description}</p>
 
                       {completions.includes(box.id) ?
-                          <button> Completed! <LightningBoltIcon /></button>
-                          :
-                          <button>{enrollments.includes(box.id) ? "Registered" : "Start Learning"} <CaretRightIcon className='mb-1' /></button>
+                        <button> Completed! <LightningBoltIcon /></button>
+                        :
+                        <button>{enrollments.includes(box.id) ? "Registered" : "Start Learning"} <CaretRightIcon className='mb-1' /></button>
                       }
 
                     </div>
