@@ -50,7 +50,27 @@ export default function Box({ content }) {
             // set box data
             setBox(box);
             // set first section
-            if (box.sections) { setSection(box.sections[0]); }
+            if (box.sections) {
+                setSection(box.sections[0]);
+
+                // record learning events for the first section
+                learnirClient.record({
+                    event: "section.visit",
+                    consumer: AppState.profile.data.id,
+                    context: {
+                        box: box.id,
+                        section: sections[0].id
+                    }
+                });
+                learnirClient.record({
+                    event: "section.complete",
+                    consumer: AppState.profile.data.id,
+                    context: {
+                        box: box.id,
+                        section: sections[0].id
+                    }
+                });
+            }
             // set events
             learnirClient.record({ event: "box.visit", consumer: AppState.profile.data?.id, context: { "box": box.id } });
 
@@ -154,7 +174,7 @@ export default function Box({ content }) {
                                 </div>
                                 <div className="row mt-3 justify-content-start p-2">
                                     {
-                                        section.files?.others.map((file, index) => {
+                                        section.files.others.map((file, index) => {
                                             return (
                                                 <div className="col-lg-4 col-md-12 col-sm-12" key={index}>
                                                     <a target="_blank" rel="noreferrer" href={file.url} download={file.name} className="text-decoration-none text-dark">
