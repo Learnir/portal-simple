@@ -52,25 +52,27 @@ export default function Box({ content }) {
             // set first section
             if (box.sections) {
                 setSection(box.sections[0]);
-
-                // record learning events for the first section
-                learnirClient.record({
-                    event: "section.visit",
-                    consumer: AppState.profile.data.id,
-                    context: {
-                        box: box.id,
-                        section: sections[0].id
-                    }
-                });
-                learnirClient.record({
-                    event: "section.complete",
-                    consumer: AppState.profile.data.id,
-                    context: {
-                        box: box.id,
-                        section: sections[0].id
-                    }
-                });
+                if (AppState.profile.data.id) {    
+                    // record learning events for the first section
+                    learnirClient.record({
+                        event: "section.visit",
+                        consumer: AppState.profile.data.id,
+                        context: {
+                            box: box.id,
+                            section: sections[0].id
+                        }
+                    });
+                    learnirClient.record({
+                        event: "section.complete",
+                        consumer: AppState.profile.data.id,
+                        context: {
+                            box: box.id,
+                            section: sections[0].id
+                        }
+                    });
+                }
             }
+            
             // set events
             learnirClient.record({ event: "box.visit", consumer: AppState.profile.data?.id, context: { "box": box.id } });
 
