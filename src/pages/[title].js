@@ -52,7 +52,7 @@ export default function Box({ content }) {
             // set first section
             if (box.sections) {
                 setSection(box.sections[0]);
-                if (AppState.profile.data.id) {    
+                if (AppState.profile.data) {    
                     // record learning events for the first section
                     learnirClient.record({
                         event: "section.visit",
@@ -72,7 +72,7 @@ export default function Box({ content }) {
                     });
                 }
             }
-            
+
             // set events
             learnirClient.record({ event: "box.visit", consumer: AppState.profile.data?.id, context: { "box": box.id } });
 
