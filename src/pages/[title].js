@@ -59,7 +59,7 @@ export default function Box({ content }) {
                         consumer: AppState.profile.data.id,
                         context: {
                             box: box.id,
-                            section: sections[0].id
+                            section: box.sections[0]?.id
                         }
                     });
                     learnirClient.record({
@@ -67,7 +67,7 @@ export default function Box({ content }) {
                         consumer: AppState.profile.data.id,
                         context: {
                             box: box.id,
-                            section: sections[0].id
+                            section: box.sections[0]?.id
                         }
                     });
                 }
