@@ -9,18 +9,14 @@ import { Link2Icon } from '@radix-ui/react-icons'
 import ReactPlayer from 'react-player'
 import Ticker from 'react-ticker'
 
-import { PortalStateContext } from '../context/state';
-import { config } from '../context/state';
+import { AppStateContext, config } from '../context/state';
 
 import Header from '../components/header'
 import Footer from '../components/footer'
 
-const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
-
 
 export async function getStaticPaths() {
-    let response = await learnirClient.content();
+    let response = await config.learnir.client.content();
     return {
         paths: response.data.map((box) => {
             return { params: { title: `${box.slug}` } }
@@ -30,14 +26,14 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-    let response = await learnirClient.content();
+    let response = await config.learnir.client.content();
     return { props: { content: response.data }, revalidate: 60 }
 }
 
 export default function Box({ content }) {
 
     const router = useRouter();
-    const AppState = useContext(PortalStateContext);
+    const AppState = useContext(AppStateContext);
     let [box, setBox] = useState();
     let [section, setSection] = useState();
     let [enrolled, setEnrolled] = useState();
@@ -49,12 +45,13 @@ export default function Box({ content }) {
         if (box) {
             // set box data
             setBox(box);
+            
             // set first section
             if (box.sections) {
                 setSection(box.sections[0]);
                 if (AppState.profile.data) {    
                     // record learning events for the first section
-                    learnirClient.record({
+                    config.learnir.client.record({
                         event: "section.visit",
                         consumer: AppState.profile.data.id,
                         context: {
@@ -62,7 +59,7 @@ export default function Box({ content }) {
                             section: box.sections[0]?.id
                         }
                     });
-                    learnirClient.record({
+                    config.learnir.client.record({
                         event: "section.complete",
                         consumer: AppState.profile.data.id,
                         context: {
@@ -74,11 +71,11 @@ export default function Box({ content }) {
             }
 
             // set events
-            learnirClient.record({ event: "box.visit", consumer: AppState.profile.data?.id, context: { "box": box.id } });
+            config.learnir.client.record({ event: "box.visit", consumer: AppState.profile.data?.id, context: { "box": box.id } });
 
             // get 
             if (AppState.profile.data?.id) {
-                learnirClient.records(AppState.profile.data.id).then(response => {
+                config.learnir.client.records(AppState.profile.data.id).then(response => {
                     console.log("response:: ", response);
 
                     // check if the consumer is enrolled in this box
@@ -148,7 +145,7 @@ export default function Box({ content }) {
                                             }}
                                             onStart={() => {
                                                 // record when consumer clicks to watch video
-                                                learnirClient.record({
+                                                config.learnir.client.record({
                                                     event: "section.video.watch",
                                                     consumer: AppState.profile.data.id,
                                                     context: {
@@ -159,7 +156,7 @@ export default function Box({ content }) {
                                             }}
                                             onEnded={() => {
                                                 // record when consumer clicks to watch video
-                                                learnirClient.record({
+                                                config.learnir.client.record({
                                                     event: "section.video.complete",
                                                     consumer: AppState.profile.data.id,
                                                     context: {
@@ -206,7 +203,7 @@ export default function Box({ content }) {
                                             className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
                                             onClick={() => {
                                                 setSection(step);
-                                                learnirClient.record({
+                                                config.learnir.client.record({
                                                     event: "section.visit",
                                                     consumer: AppState.profile.data.id,
                                                     context: {
@@ -214,7 +211,7 @@ export default function Box({ content }) {
                                                         section: step.id
                                                     }
                                                 });
-                                                learnirClient.record({
+                                                config.learnir.client.record({
                                                     event: "section.complete",
                                                     consumer: AppState.profile.data.id,
                                                     context: {
@@ -242,7 +239,7 @@ export default function Box({ content }) {
                                     // check if authenticated
                                     if (AppState.profile.data?.id) {
                                         // record the box.enroll event
-                                        learnirClient.record({
+                                        config.learnir.client.record({
                                             event: "box.enrolled",
                                             consumer: AppState.profile.data.id,
                                             context: {

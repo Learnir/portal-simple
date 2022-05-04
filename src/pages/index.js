@@ -8,31 +8,27 @@ import Link from 'next/link'
 import Header from '../components/header'
 import Footer from '../components/footer'
 
-import { PortalStateContext } from '../context/state';
-import { config } from '../context/state';
+import { AppStateContext, config } from '../context/state';
 import { CaretRightIcon, LightningBoltIcon } from '@radix-ui/react-icons'
 
-const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
 
 export async function getStaticProps() {
-  let response = await learnirClient.content();
-  console.log("response sdk", response);
+  let response = await config.learnir.client.content();
   return { props: { content: response.data }, revalidate: 60 }
 }
 export default function Index({ content }) {
-  const AppState = useContext(PortalStateContext);
+  const AppState = useContext(AppStateContext);
   const [categories, setCategories] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
   const [completions, setCompletions] = useState([]);
 
   useEffect(() => {
-    learnirClient.record({
+    config.learnir.client.record({
       event: "main-page-visit",
       consumer: AppState.profile.data?.id,
       context: {}
     });
-    learnirClient.record({
+    config.learnir.client.record({
       event: "learner.active",
       consumer: AppState.profile.data?.id,
       context: {}
@@ -40,7 +36,7 @@ export default function Index({ content }) {
 
     // get enrolled boxes 
     if (AppState.profile.data?.id) {
-      learnirClient.records(AppState.profile.data.id).then(response => {
+      config.learnir.client.records(AppState.profile.data.id).then(response => {
         // enrolled boxes array
         let enrolled = [];
         let completed = [];

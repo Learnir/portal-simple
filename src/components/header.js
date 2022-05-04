@@ -6,14 +6,10 @@ import Link from 'next/link'
 
 import { FaceIcon, AvatarIcon, HamburgerMenuIcon, Cross1Icon, ChevronLeftIcon } from '@radix-ui/react-icons'
 
-import { AppStateContext } from '../context/state';
-import { config } from '../context/state';
+import { AppStateContext, config } from '../context/state';
 
 import * as Dialog from '@radix-ui/react-dialog';
 import { styled } from '@stitches/react';
-
-const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
 
 const Overlay = styled(Dialog.Overlay, {
     background: 'rgba(0 0 0 / 0.5)',
@@ -65,7 +61,7 @@ export default function Header(props) {
             axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
-                learnirClient.consumer({ id: AppState.profile.data.id, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {
+                config.learnir.client.consumer({ id: AppState.profile.data.id, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {
                     console.log("consumer-create", response.data);
                 }).catch(error => {
                     console.log("consumer-create-error", error);
@@ -98,7 +94,7 @@ export default function Header(props) {
             axios.put(`${config.learnir.endpoint}/v1/interfaces/portal/account/${AppState.profile.data?.id}`, getAuthData).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // consumer name update
-                learnirClient.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name }).then(response => {
+                config.learnir.client.consumer({ id: `${AppState.profile.data.id}`, name: AppState.profile.data.name }).then(response => {
                     console.log("consumer-update", response.data);
                 }).catch(error => {
                     console.log("consumer-update-error", error);

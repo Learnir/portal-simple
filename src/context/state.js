@@ -1,7 +1,33 @@
 import { createContext, useContext, useState } from 'react';
 import { useRouter } from 'next/router'
+const learnir = require("learnir-javascript-sdk");
 
-const PortalContext = createContext();
+const AppContext = createContext();
+
+export const config = {
+  organization: {
+    logo: "https://learnir.co/logo.svg",
+    name: "Product Training",
+    cover: "/banner.svg",
+    email: "training@heap.io",
+    links: {
+      help_center: "https://help.heap.io",
+      community: "https://community.heap.io",
+    }
+  },
+  portal: {
+    title: "Welcome!",
+    description: `The courses you find in Heap University are designed to help get you up and running with Heap. With Heap, everything is measurable and any data point is ready for analysis. 
+    Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
+    listings_style: "uncategorized", // categorized, uncategorized - categorized, renders by what is in the tags of
+  },
+  learnir: {
+    port_key: "329936155895136841", // config from console product
+    endpoint: true ? "http://localhost:9060" : "https://api.learnir.co",
+    get client() { return new learnir.LearnirApi({ basePath: this.endpoint + "/v1", baseOptions: { headers: { "key": this.port_key } } }) },
+  }
+}
+
 
 export function AppStateProvider({ children }) {
   const router = useRouter()
@@ -14,7 +40,6 @@ export function AppStateProvider({ children }) {
   const [getView, setView] = useState(false);
 
   const [getCompData, setCompData] = useState();
-
   const [getRecords, setRecords] = useState([]);
   const [getInteractions, setInteractions] = useState([]);
 
@@ -41,8 +66,9 @@ export function AppStateProvider({ children }) {
     }
   }
 
+  // export
   const data = {
-    authenticated, profile, isBrowser,
+    authenticated, profile, isBrowser, config,
 
     getContent, setContent,
 
@@ -57,40 +83,8 @@ export function AppStateProvider({ children }) {
     getInteractions, setInteractions
   };
 
-  return (<PortalContext.Provider value={data}> {children} </PortalContext.Provider>);
+  return (<AppContext.Provider value={data}> {children} </AppContext.Provider>);
 }
 
-export const PortalStateContext = PortalContext;
-export const AppStateContext = PortalContext;
-
-
-// configuration(app-wide)
-export const config = {
-  organization: {
-    logo: "https://learnir.co/logo.svg",
-    name: "Product Training",
-    cover: "/banner.svg",
-    email: "training@heap.io",
-    links: {
-      help_center: "https://help.heap.io",
-      community: "https://community.heap.io",
-    }
-  },
-  portal: {
-    title: "Welcome!",
-    description: `The courses you find in Heap University are designed to help get you up and running with Heap. With Heap, everything is measurable and a
-    ny data point is ready for analysis. Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
-
-    listings_style: "uncategorized", // categorized, uncategorized - categorized, renders by what is in the tags of
-  },
-  learnir: {
-    port_key: "329936155895136841", // config from console product
-    endpoint: typeof window !== "undefined" && window.location.hostname == "locahost" ? "http://localhost:9060" : "https://api.learnir.co"
-  },
-  integrations: {
-    key: "329936155895136841",
-    endpoint: typeof window !== "undefined" && window.location.hostname == "locahost" ? "http://localhost:9060" : "https://api.learnir.co"
-  }
-}
-
+export const AppStateContext = AppContext;
 

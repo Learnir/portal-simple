@@ -7,8 +7,8 @@ import Link from 'next/link'
 import Header from '../components/header'
 import Footer from '../components/footer'
 
-import { PortalStateContext } from '../context/state';
-import { config } from '../context/state';
+import { AppStateContext, config } from '../context/state';
+
 import { ArrowTopRightIcon, AvatarIcon } from '@radix-ui/react-icons'
 import * as Dialog from '@radix-ui/react-dialog';
 import { styled } from '@stitches/react';
@@ -35,11 +35,8 @@ const Content = styled(Dialog.Content, {
 });
 
 
-const learnir = require("learnir-javascript-sdk");
-const learnirClient = new learnir.LearnirApi({ baseOptions: { headers: { "key": config.learnir.port_key } } });
-
 export default function Account() {
-  const AppState = useContext(PortalStateContext);
+  const AppState = useContext(AppStateContext);
 
   const [enrollments, setEnrollments] = useState([]);
   const [completions, setCompletions] = useState([]);
@@ -49,12 +46,12 @@ export default function Account() {
     if (AppState.profile.data?.id) {
 
       // get content boxes
-      learnirClient.content(AppState.profile.data.id).then(response => {
+      config.learnir.client.content(AppState.profile.data.id).then(response => {
         let content = response.data;
         AppState.setContent(content);
 
         // get learning events (unqique)
-        learnirClient.records(AppState.profile.data.id).then(response => {
+        config.learnir.client.records(AppState.profile.data.id).then(response => {
           // enrolled boxes array
           let enrolled = [];
           let completed = [];
@@ -99,7 +96,7 @@ export default function Account() {
         });
       });
 
-      learnirClient.interactions(AppState.profile.data.id).then(response => {
+      config.learnir.client.interactions(AppState.profile.data.id).then(response => {
         let interactions = response.data;
         console.log("interactions", interactions);
         // objects are rendered as is
