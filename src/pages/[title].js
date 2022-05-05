@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Link2Icon } from '@radix-ui/react-icons'
+import { Link2Icon, CheckCircledIcon } from '@radix-ui/react-icons'
 import ReactPlayer from 'react-player'
 import Ticker from 'react-ticker'
 
@@ -38,6 +38,7 @@ export default function Box({ content }) {
     let [section, setSection] = useState();
     let [enrolled, setEnrolled] = useState();
     let [loading, setLoading] = useState(true);
+    let [sectionsCompleted, setSectionsCompleted] = useState([]);
 
 
     function InitBox() {
@@ -45,11 +46,11 @@ export default function Box({ content }) {
         if (box) {
             // set box data
             setBox(box);
-            
+
             // set first section
             if (box.sections) {
                 setSection(box.sections[0]);
-                if (AppState.profile.data) {    
+                if (AppState.profile.data) {
                     // record learning events for the first section
                     config.learnir.client.record({
                         event: "section.visit",
@@ -66,7 +67,9 @@ export default function Box({ content }) {
                             box: box.id,
                             section: box.sections[0]?.id
                         }
-                    });
+                    }).then(() => {
+                        setSectionsCompleted([...sectionsCompleted, box.sections[0]?.id]);
+                    })
                 }
             }
 
@@ -81,6 +84,19 @@ export default function Box({ content }) {
                     // check if the consumer is enrolled in this box
                     let enrolled = response.data.events.filter(event => event.event_name == "box.enrolled" && event.event_context.box == box.id);
                     console.log("enrolled:: ", enrolled);
+                    let sectioned = []
+                    response.data.events.filter(event => {
+                        if(event.event_name == "section.complete" && event.event_context.box == box.id){
+                            // push into the sectioned
+                            sectioned.push(event.event_context.section);
+                        }
+                    });
+
+                    console.log("enrolled", enrolled);
+                    console.log("sectioned", sectioned);
+                    
+                    setSectionsCompleted([ ...sectionsCompleted, ...sectioned]);
+
                     if (enrolled[0]) {
                         // show learning mode
                         setEnrolled(true);
@@ -106,6 +122,10 @@ export default function Box({ content }) {
 
     useEffect(() => {
         InitBox();
+
+        // section completion indicators
+        // onload setup completed sections
+        // onclick of section complete, push it into the completed sections graph as well
     }, []);
 
     return (
@@ -218,11 +238,13 @@ export default function Box({ content }) {
                                                         box: box?.id,
                                                         section: step.id
                                                     }
-                                                });
+                                                }).then(() => {
+                                                    setSectionsCompleted([...sectionsCompleted, step.id]);
+                                                })
                                             }}>
 
                                             <h5 className="fw-normal text-truncate mt-2">
-                                                {step.title} {step.type == "component" && <span className="bg-brand badge badge-primary">{step.component}</span>}
+                                                {sectionsCompleted.includes(step.id) ? <CheckCircledIcon/> : ""} {step.title} {step.type == "component" && <span className="bg-brand badge badge-primary">{step.component}</span>}
                                             </h5>
 
                                         </div>
