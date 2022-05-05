@@ -23,7 +23,7 @@ export const config = {
   },
   learnir: {
     port_key: "329936155895136841", // config from console product
-    endpoint: true ? "http://localhost:9060" : "https://api.learnir.co",
+    endpoint: false ? "http://localhost:9060" : "https://api.learnir.co",
     get client() { return new learnir.LearnirApi({ basePath: this.endpoint + "/v1", baseOptions: { headers: { "key": this.port_key } } }) },
   }
 }
