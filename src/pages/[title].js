@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router'
 
 import Head from 'next/head'
@@ -40,7 +40,6 @@ export default function Box({ content }) {
     let [loading, setLoading] = useState(true);
     let [sectionsCompleted, setSectionsCompleted] = useState([]);
 
-
     function InitBox() {
         let box = content.filter(choice => choice.slug == router.query.title)[0];
         if (box) {
@@ -79,24 +78,16 @@ export default function Box({ content }) {
             // get 
             if (AppState.profile.data?.id) {
                 config.learnir.client.records(AppState.profile.data.id).then(response => {
-                    console.log("response:: ", response);
-
                     // check if the consumer is enrolled in this box
                     let enrolled = response.data.events.filter(event => event.event_name == "box.enrolled" && event.event_context.box == box.id);
-                    console.log("enrolled:: ", enrolled);
                     let sectioned = []
                     response.data.events.filter(event => {
-                        if(event.event_name == "section.complete" && event.event_context.box == box.id){
+                        if (event.event_name == "section.complete" && event.event_context.box == box.id) {
                             // push into the sectioned
                             sectioned.push(event.event_context.section);
                         }
                     });
-
-                    console.log("enrolled", enrolled);
-                    console.log("sectioned", sectioned);
-                    
-                    setSectionsCompleted([ ...sectionsCompleted, ...sectioned]);
-
+                    setSectionsCompleted([...sectionsCompleted, ...sectioned]);
                     if (enrolled[0]) {
                         // show learning mode
                         setEnrolled(true);
@@ -122,11 +113,40 @@ export default function Box({ content }) {
 
     useEffect(() => {
         InitBox();
-
-        // section completion indicators
-        // onload setup completed sections
-        // onclick of section complete, push it into the completed sections graph as well
     }, []);
+
+    useEffect(() => {
+        let exp_element = document.querySelector('learnir-exp-module');
+        if (section?.type == "component" && exp_element) {
+            exp_element.addEventListener('callback', event => {
+                console.log("exp-module-callback-recorded");
+
+                // record events
+                if (event.detail == "section.visit") {
+                    config.learnir.client.record({
+                        event: "section.visit",
+                        consumer: AppState.profile.data.id,
+                        context: {
+                            box: box?.id,
+                            section: section.id
+                        }
+                    });
+                } else if (event.detail == "section.complete") {
+                    config.learnir.client.record({
+                        event: "section.complete",
+                        consumer: AppState.profile.data.id,
+                        context: {
+                            box: box?.id,
+                            section: section.id
+                        }
+                    }).then(() => {
+                        setSectionsCompleted([...sectionsCompleted, section.id]);
+                    })
+                }
+            })
+        }
+    }, [section]);
+
 
     return (
         <div className="container-struc">
@@ -144,8 +164,14 @@ export default function Box({ content }) {
                         <div className="row mx-auto pt-2 border rounded">
                             <div className="col-lg-8 col-md-12 col-sm-12 p-3 rounded learning-section bg-white">
                                 <div className="row p-2">
+
                                     {section.type == "component" ?
-                                        <learnir-exp-module component={section.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+                                        <learnir-exp-module
+                                            component={section.id}
+                                            consumer={AppState.profile.data.id}
+                                            box={box?.id}
+                                            port_key={config.learnir.port_key}
+                                        ></learnir-exp-module>
                                         :
                                         <h3 className="d-flex justify-content-between mb-3"> {section.title} </h3>
                                     }
@@ -222,29 +248,33 @@ export default function Box({ content }) {
                                         <div role="button" key={index}
                                             className={`mt-2 w-100 h-auto pointed text-start p-1 rounded ps-3 pe-3 align-items-center ${section.id == step.id ? 'bg-brand text-whited' : ''}`}
                                             onClick={() => {
+
                                                 setSection(step);
-                                                config.learnir.client.record({
-                                                    event: "section.visit",
-                                                    consumer: AppState.profile.data.id,
-                                                    context: {
-                                                        box: box?.id,
-                                                        section: step.id
-                                                    }
-                                                });
-                                                config.learnir.client.record({
-                                                    event: "section.complete",
-                                                    consumer: AppState.profile.data.id,
-                                                    context: {
-                                                        box: box?.id,
-                                                        section: step.id
-                                                    }
-                                                }).then(() => {
-                                                    setSectionsCompleted([...sectionsCompleted, step.id]);
-                                                })
+
+                                                if (!step.type) {
+                                                    config.learnir.client.record({
+                                                        event: "section.visit",
+                                                        consumer: AppState.profile.data.id,
+                                                        context: {
+                                                            box: box?.id,
+                                                            section: step.id
+                                                        }
+                                                    });
+                                                    config.learnir.client.record({
+                                                        event: "section.complete",
+                                                        consumer: AppState.profile.data.id,
+                                                        context: {
+                                                            box: box?.id,
+                                                            section: step.id
+                                                        }
+                                                    }).then(() => {
+                                                        setSectionsCompleted([...sectionsCompleted, step.id]);
+                                                    })
+                                                }
                                             }}>
 
                                             <h5 className="fw-normal text-truncate mt-2">
-                                                {sectionsCompleted.includes(step.id) ? <CheckCircledIcon/> : ""} {step.title} {step.type == "component" && <span className="bg-brand badge badge-primary">{step.component}</span>}
+                                                {sectionsCompleted.includes(step.id) ? <CheckCircledIcon /> : ""} {step.title} {step.type == "component" && <span className="bg-brand badge badge-primary">{step.component}</span>}
                                             </h5>
 
                                         </div>

@@ -2,8 +2,10 @@ import Head from 'next/head'
 import Script from 'next/script'
 
 import { AppStateProvider, config } from '../context/state';
+
 import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/globals.css'
+
 
 function SafeHydrate({ children }) {
   return (
@@ -18,10 +20,10 @@ export default function MyApp({ Component, pageProps }) {
     <AppStateProvider>
       <div>
         <Head>
-          <link rel="shortcut icon" href={config.organization.logo} type="image/x-icon" />      
+          <link rel="shortcut icon" href={config.organization.logo} type="image/x-icon" />
         </Head>
         
-        <Script type="module" src="https://unpkg.com/learnir-exp-module@0.8.0/dist/learnir-exp-module/learnir-exp-module.esm.js"></Script>
+        <Script type="module" src="https://unpkg.com/learnir-exp-module@latest/dist/learnir-exp-module/learnir-exp-module.esm.js"></Script>
 
         <div>
           <SafeHydrate><Component {...pageProps} /></SafeHydrate>

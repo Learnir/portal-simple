@@ -39,7 +39,6 @@ export default function Account() {
   const AppState = useContext(AppStateContext);
 
   const [enrollments, setEnrollments] = useState([]);
-  const [completions, setCompletions] = useState([]);
 
   function GeneratePageData() {
     // get enrolled boxes 
@@ -94,15 +93,19 @@ export default function Account() {
 
           setEnrollments(enrollments);
         });
-      });
 
-      config.learnir.client.interactions(AppState.profile.data.id).then(response => {
-        let interactions = response.data;
-        console.log("interactions", interactions);
-        // objects are rendered as is
-        AppState.setInteractions(interactions);
+        // transform learning interactions
+        config.learnir.client.interactions(AppState.profile.data.id).then(response => {
+          let interactions = [];
+          response.data.map(block => {
+            // for each block, check for which
+            let boxes = content.filter(box => box.sections.filter(sec => sec.id == block.id).length > 0);
+            let box = boxes.length > 0 ? boxes[0].id : "";
+            interactions.push({ ...block, box })
+          });
+          AppState.setInteractions(interactions);
+        });
       });
-
     }
   }
 
@@ -118,7 +121,12 @@ export default function Account() {
           <Content className="dialog">
             <h3 size={300} className="mt-2 border-bottom pb-3 mb-2"> {AppState.getCompData?.title} </h3>
             {AppState.getCompData?.id && AppState.profile.data.id &&
-              <learnir-exp-module component={AppState.getCompData.id} consumer={AppState.profile.data.id} ></learnir-exp-module>
+              <learnir-exp-module
+                component={AppState.getCompData.id}
+                consumer={AppState.profile.data.id}
+                box={AppState.getCompData.box}
+                port_key={config.learnir.port_key}>
+              </learnir-exp-module>
             }
           </Content>
         </Overlay>
@@ -157,7 +165,7 @@ export default function Account() {
                     <div className="w-100 h-auto border rounded p-3 pb-0">
                       <h5 className="text-">
                         {box.title}
-                        <Link href={`/${box.slug}`} target="_blank"  rel="noreferrer" className="ml-2 text-brand" rol="button"><ArrowTopRightIcon className="text-brand" role={"button"} /></Link>
+                        <Link href={`/${box.slug}`} target="_blank" rel="noreferrer" className="ml-2 text-brand" rol="button"><ArrowTopRightIcon className="text-brand" role={"button"} /></Link>
                       </h5>
                       <p className="">Enrollment: {box.enrolled}</p>
                       <p className="">Completion: {box.completed}</p>
