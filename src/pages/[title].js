@@ -147,7 +147,6 @@ export default function Box({ content }) {
         }
     }, [section]);
 
-
     return (
         <div className="container-struc">
             <Head>
@@ -169,7 +168,7 @@ export default function Box({ content }) {
                                         <learnir-exp-module
                                             component={section.id}
                                             consumer={AppState.profile.data.id}
-                                            box={box?.id}
+                                            box={box.id}
                                             port_key={config.learnir.port_key}
                                         ></learnir-exp-module>
                                         :
