@@ -138,9 +138,9 @@ export default function Account() {
   return (
     <div className="container-struc">
       <Head>
-        <title>Portal - Online learning experience</title>
-        <meta name="description" content="Join us on our learning portal as we take you through beginner to mastery of our products" />
-        <link rel="icon" href="/logo.png" />
+        <title>{config.organization.name} - {config.portal.title}</title>
+        <meta name="description" content={config.portal.description} />
+        <link rel="icon" href={config.organization.logo} />
       </Head>
 
       <Header />

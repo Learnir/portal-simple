@@ -9,16 +9,16 @@ export const config = {
     logo: "https://learnir.co/logo.svg",
     name: "Product Training",
     cover: "/banner.svg",
-    email: "training@heap.io",
+    email: "training@learnir.co",
     links: {
-      help_center: "https://help.heap.io",
-      community: "https://community.heap.io",
+      help_center: "#",
+      community: "#",
     }
   },
   portal: {
     title: "Welcome!",
-    description: `The courses you find in Heap University are designed to help get you up and running with Heap. With Heap, everything is measurable and any data point is ready for analysis. 
-    Using Heap you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
+    description: `The courses you find in Learnir Academy are designed to help get you up and running with Learnir. With Learnir, everything is measurable and any data point is ready for analysis. 
+    Using Learnir you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
     listings_style: "uncategorized", // categorized, uncategorized - categorized, renders by what is in the tags of
   },
   learnir: {
@@ -27,7 +27,6 @@ export const config = {
     get client() { return new learnir.LearnirApi({ basePath: this.endpoint + "/v1", baseOptions: { headers: { "key": this.port_key } } }) },
   }
 }
-
 
 export function AppStateProvider({ children }) {
   const router = useRouter()

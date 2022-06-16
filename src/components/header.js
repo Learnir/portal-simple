@@ -58,7 +58,11 @@ export default function Header(props) {
     function AuthIn() {
         if (getAuthData.code) {
             // code is sent already, send code authenticate request
-            axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/code`, getAuthData).then((response) => {
+            axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/code`, getAuthData, {
+                headers: {
+                    key: config.learnir.port_key
+                }
+            }).then((response) => {
                 localStorage.setItem("token", response.data.token);
                 // add consumer to console
                 config.learnir.client.consumer({ id: AppState.profile.data.id, name: AppState.profile.data.name, email: AppState.profile.data.email }).then(response => {

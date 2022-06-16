@@ -150,9 +150,9 @@ export default function Box({ content }) {
     return (
         <div className="container-struc">
             <Head>
-                <title>Portal - Online learning experience</title>
-                <meta name="description" content="Join us on our learning portal as we take you through beginner to mastery of our products" />
-                <link rel="icon" href="/logo.png" />
+                <title>{config.organization.name} - {box?.title}</title>
+                <meta name="description" content={box?.description} />
+                <link rel="icon" href={box?.image} />
             </Head>
 
             <Header />
