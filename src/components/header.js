@@ -81,7 +81,11 @@ export default function Header(props) {
             });
         } else {
             // send in the code -email
-            axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/email`, getAuthData).then((response) => {
+            axios.post(`${config.learnir.endpoint}/v1/interfaces/portal/authin/email`, getAuthData, {
+                headers: {
+                    key: config.learnir.port_key
+                }
+            }).then((response) => {
                 console.log("AuthIn response data", response.data);
                 setCodeSent(true);
                 alert("Your Authin code has been sent to your email.");
@@ -140,7 +144,7 @@ export default function Header(props) {
                             }
 
                             <span className="me-5 align-items-center">
-                                <a href={`mailto:${config.organization.email}`}  className="pointed cursor mt-2 text-dark text-decoration-none"><h6 className="pointed cursor mt-2 text-dark text-decoration-none">Support</h6></a>
+                                <a href={`mailto:${config.organization.email}`} className="pointed cursor mt-2 text-dark text-decoration-none"><h6 className="pointed cursor mt-2 text-dark text-decoration-none">Support</h6></a>
                             </span>
 
                             <Dialog.Root open={AppState.getShow} onOpenChange={(open) => AppState.setShow(open)}>
