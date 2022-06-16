@@ -1,6 +1,4 @@
 ## Portal Simple
-[<img src="portal-web.png" width="650px"/>](portal-web.png)
-[<img src="portal-mobile.png" width="170px"/>](portal-mobile.png)
 - Portal simple works great for academy style learning experiences, content is organized in paths and students are awarded in the end of each box etc.
 
 ## Deployment

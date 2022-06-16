@@ -9,7 +9,7 @@ export const config = {
     logo: "https://learnir.co/logo.svg",
     name: "Product Training",
     cover: "/banner.svg",
-    email: "training@learnir.co",
+    email: "team@learnir.co",
     links: {
       help_center: "#",
       community: "#",
@@ -17,7 +17,7 @@ export const config = {
   },
   portal: {
     title: "Welcome!",
-    description: `The courses you find in Learnir Academy are designed to help get you up and running with Learnir. With Learnir, everything is measurable and any data point is ready for analysis. 
+    description: `The courses you find in Learnir Academy are designed to help get you up and running with Learnir. With Learnir, everything is measurable and any data point is ready for analysis.
     Using Learnir you can uncover the wealth of insights that your organization has available. Select a course below to get started!`,
     listings_style: "uncategorized", // categorized, uncategorized - categorized, renders by what is in the tags of
   },
