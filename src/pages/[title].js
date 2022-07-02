@@ -75,16 +75,16 @@ export default function Box({ content }) {
             // set events
             config.learnir.client.record({ event: "box.visit", consumer: AppState.profile.data?.id, context: { "box": box.id } });
 
-            // get 
+            // get
             if (AppState.profile.data?.id) {
                 config.learnir.client.records(AppState.profile.data.id).then(response => {
                     // check if the consumer is enrolled in this box
-                    let enrolled = response.data.events.filter(event => event.event_name == "box.enrolled" && event.event_context.box == box.id);
+                    let enrolled = response.data.events.filter(event => event.name == "box.enrolled" && event.context.box == box.id);
                     let sectioned = []
                     response.data.events.filter(event => {
-                        if (event.event_name == "section.complete" && event.event_context.box == box.id) {
+                        if (event.name == "section.complete" && event.context.box == box.id) {
                             // push into the sectioned
-                            sectioned.push(event.event_context.section);
+                            sectioned.push(event.context.section);
                         }
                     });
                     setSectionsCompleted([...sectionsCompleted, ...sectioned]);

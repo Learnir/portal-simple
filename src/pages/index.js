@@ -34,18 +34,18 @@ export default function Index({ content }) {
       context: {}
     });
 
-    // get enrolled boxes 
+    // get enrolled boxes
     if (AppState.profile.data?.id) {
       config.learnir.client.records(AppState.profile.data.id).then(response => {
         // enrolled boxes array
         let enrolled = [];
         let completed = [];
         response.data.events.forEach(event => {
-          if (event.event_name == "box.enrolled" && event.event_context.box) {
-            enrolled.push(event.event_context.box);
+          if (event.name == "box.enrolled" && event.context.box) {
+            enrolled.push(event.context.box);
           }
-          if (event.event_name == "box.complete" && event.event_context.box) {
-            completed.push(event.event_context.box);
+          if (event.name == "box.complete" && event.context.box) {
+            completed.push(event.context.box);
           }
         });
 

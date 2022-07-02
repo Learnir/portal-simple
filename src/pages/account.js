@@ -41,7 +41,7 @@ export default function Account() {
   const [enrollments, setEnrollments] = useState([]);
 
   function GeneratePageData() {
-    // get enrolled boxes 
+    // get enrolled boxes
     if (AppState.profile.data?.id) {
 
       // get content boxes
@@ -58,14 +58,14 @@ export default function Account() {
           let enrolled_meta = [];
           let completed_meta = [];
 
-          // find when 
+          // find when
           response.data.events.forEach(event => {
-            if (event.event_name == "box.enrolled" && event.event_context.box) {
-              enrolled.push(event.event_context.box);
+            if (event.name == "box.enrolled" && event.context.box) {
+              enrolled.push(event.context.box);
               enrolled_meta.push(event);
             }
-            if (event.event_name == "box.complete" && event.event_context.box) {
-              completed.push(event.event_context.box);
+            if (event.name == "box.complete" && event.context.box) {
+              completed.push(event.context.box);
               completed_meta.push(event);
             }
           });
@@ -73,11 +73,11 @@ export default function Account() {
           let enrollments_ids = [...new Set(enrolled)];
           let completions_ids = [...new Set(completed)];
 
-          // find enrollment of class 
+          // find enrollment of class
           let enrollments = [];
           content.forEach((box, index) => {
             if (enrollments_ids.includes(box.id)) {
-              let enrollment_events = enrolled_meta.filter(event => event.event_name == "box.enrolled" && event.event_context.box);
+              let enrollment_events = enrolled_meta.filter(event => event.name == "box.enrolled" && event.context.box);
               enrollments.push({
                 ...box,
                 title: box.title,
@@ -85,7 +85,7 @@ export default function Account() {
                 completed: "Not yet!",
               });
               if (completions_ids.includes(box.id)) {
-                let completion_events = completed_meta.filter(event => event.event_name == "box.completed" && event.event_context.box);
+                let completion_events = completed_meta.filter(event => event.name == "box.completed" && event.context.box);
                 enrollments[index].completed = completion_events[0] ? new Date(completion_events[0].created_at).toLocaleDateString() : "Not Yet!"
               }
             }
